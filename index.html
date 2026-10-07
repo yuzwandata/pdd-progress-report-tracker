@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PDD Project Delivery Progress Reporting & Look-Ahead Details</title>
+<title>PDD Progress Reporting & Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
@@ -45,7 +45,11 @@ button, input, select, textarea { font: inherit; }
 
 .rule { height: 1px; background: var(--line); margin: 20px 0; }
 
-/* Header & Nav */
+/* Page Visibility */
+.app-page { display: none; }
+.app-page.active { display: block; }
+
+/* Header */
 .masthead {
   display: flex;
   align-items: center;
@@ -56,15 +60,7 @@ button, input, select, textarea { font: inherit; }
 }
 
 .brand { display: flex; align-items: center; gap: 16px; }
-.brand-logo {
-  background: var(--blue);
-  color: white;
-  font-weight: 700;
-  font-size: 15px;
-  padding: 8px 14px;
-  border-radius: 4px;
-  letter-spacing: -0.02em;
-}
+.brand img { height: 42px; width: auto; object-fit: contain; }
 .brand-meta {
   border-left: 1px solid var(--line);
   padding-left: 14px;
@@ -75,20 +71,20 @@ button, input, select, textarea { font: inherit; }
   letter-spacing: .08em;
 }
 
-.view-toggle-btn {
-  background: var(--blue);
-  color: white;
-  border: none;
-  padding: 10px 18px;
+.nav-links { display: flex; gap: 10px; align-items: center; }
+.btn-nav {
+  background: var(--soft);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 8px 14px;
   font-size: 11px;
   font-weight: 600;
   border-radius: 4px;
   cursor: pointer;
-  letter-spacing: 0.04em;
   transition: all 0.2s;
-  box-shadow: 0 2px 8px rgba(0,0,255,0.2);
 }
-.view-toggle-btn:hover { background: #0000cc; }
+.btn-nav:hover, .btn-nav.active { background: var(--blue); color: white; border-color: var(--blue); }
+.btn-logout { background: var(--red); color: white; border: none; }
 
 .eyebrow {
   font-size: 10px;
@@ -98,11 +94,73 @@ button, input, select, textarea { font: inherit; }
   font-weight: 700;
 }
 
-/* Sections */
-.view-section { display: block; }
-.view-section.hidden { display: none; }
+/* Page 1: Login */
+.login-container {
+  max-width: 460px;
+  margin: 60px auto;
+  background: var(--softb);
+  border: 1px solid #c8d2ff;
+  border-radius: 8px;
+  padding: 36px;
+  text-align: center;
+}
+.login-logo { width: 140px; margin-bottom: 16px; }
+.login-title { font-size: 20px; font-weight: 700; margin-bottom: 24px; color: var(--ink); }
+.login-btn-group { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+.btn-login-role {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s;
+}
+.btn-login-role:hover { opacity: 0.9; }
 
-/* Form Section */
+/* Dashboard Financial Summary Cards */
+.hero-side {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 16px;
+  margin: 20px 0 32px;
+}
+
+.hero-stat {
+  background: var(--soft);
+  padding: 18px;
+  border-top: 3px solid var(--blue);
+  border-radius: 4px;
+}
+
+.hero-stat .label { font-size: 9px; letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+.hero-stat .value { font-size: 24px; font-weight: 600; color: var(--ink); margin-top: 6px; }
+.hero-stat .note { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+/* Colored Tables */
+.table-wrap { overflow-x: auto; background: white; border: 1px solid var(--line); border-radius: 6px; margin-top: 16px; }
+table { width: 100%; border-collapse: collapse; min-width: 980px; }
+th {
+  text-align: left;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--muted);
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--softb);
+}
+td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; color: #354052; }
+
+.badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 9px; font-weight: 600; text-transform: uppercase; }
+.badge-ahead { background: #e6f9f0; color: var(--green); }
+.badge-ontrack { background: #eefbff; color: var(--blue); }
+.badge-delayed { background: #fff4e5; color: var(--amber); }
+
+/* Form Styles */
 .entry-card {
   background: var(--softb);
   border: 1px solid #c8d2ff;
@@ -113,20 +171,13 @@ button, input, select, textarea { font: inherit; }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 18px;
   margin-top: 18px;
 }
 
 .form-group { display: flex; flex-direction: column; gap: 6px; }
-.form-group label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--ink2);
-}
-
+.form-group label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink2); }
 .form-group input, .form-group select, .form-group textarea {
   border: 1px solid var(--line);
   background: white;
@@ -137,271 +188,178 @@ button, input, select, textarea { font: inherit; }
   color: var(--ink);
 }
 
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-  border-color: var(--blue);
-  box-shadow: 0 0 0 2px rgba(0,0,255,0.1);
-}
-
-.btn-submit {
-  background: var(--blue);
-  color: white;
-  border: 0;
-  padding: 12px 28px;
-  font-weight: 600;
-  font-size: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-.btn-submit:hover { opacity: 0.9; }
-
-/* Dashboard Cards */
-.hero-side {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 18px;
-  margin: 20px 0 32px;
-}
-
-.hero-stat {
-  background: var(--soft);
-  padding: 20px;
-  border-top: 3px solid var(--blue);
-  border-radius: 4px;
-}
-
-.hero-stat .label {
-  font-size: 9px;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.hero-stat .value {
-  font-size: 26px;
-  line-height: 1.15;
-  font-weight: 600;
-  letter-spacing: -.03em;
-  color: var(--ink);
-  margin-top: 6px;
-}
-
-.hero-stat .note {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-/* Figures */
-.figure {
-  background: var(--soft);
-  padding: 24px;
-  border-radius: 6px;
-  margin-bottom: 24px;
-  border: 1px solid var(--line);
-}
-
-.fig-title {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--ink2);
-  margin-bottom: 18px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  display: flex;
-  justify-content: space-between;
-}
-
-.bar-list { display: flex; flex-direction: column; gap: 16px; }
-.bar-row {
-  display: grid;
-  grid-template-columns: minmax(200px, 260px) 1fr 130px;
-  align-items: center;
-  gap: 16px;
-}
-
-.bar-row .name { font-size: 11px; font-weight: 600; color: var(--ink2); }
-.track { height: 16px; background: #e2e7f0; position: relative; border-radius: 8px; overflow: hidden; }
-.fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--blue); border-radius: 8px; }
-.fill.cyan { background: var(--cyan); }
-.fill.green { background: var(--green); }
-.fill.amber { background: var(--amber); }
-.fill.red { background: var(--red); }
-
-.bar-row .val { text-align: right; font-size: 11px; font-weight: 600; color: var(--ink); }
-
-/* Table Section */
-.table-wrap { overflow-x: auto; background: white; border: 1px solid var(--line); border-radius: 6px; }
-table { width: 100%; border-collapse: collapse; min-width: 950px; }
-th {
-  text-align: left;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  color: var(--muted);
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--line);
-  background: var(--soft);
-}
-td {
-  font-size: 11px;
-  padding: 12px 14px;
-  border-bottom: 1px solid #eef0f4;
-  color: #354052;
-}
-
-.badge {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 12px;
-  font-size: 9px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-.badge-ahead { background: #e6f9f0; color: var(--green); }
-.badge-ontrack { background: #eefbff; color: var(--blue); }
-.badge-delayed { background: #fff4e5; color: var(--amber); }
-.badge-critical { background: #ffebeb; color: var(--red); }
-
-/* SECTION: NO1 TRADE DETAILS STYLE */
-.no1-filters {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
-  background: var(--soft);
-  padding: 20px;
-  border-radius: 6px;
-  border: 1px solid var(--line);
-  margin-bottom: 24px;
-}
-
-.category-block {
-  margin-bottom: 28px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  overflow: hidden;
-  background: white;
-}
-
-.category-header {
-  background: var(--softb);
-  padding: 14px 18px;
-  font-weight: 700;
-  font-size: 13px;
-  color: var(--blue);
-  border-bottom: 1px solid #d0d7ff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.trade-row {
-  border-bottom: 1px solid var(--line);
-  padding: 14px 18px;
-}
-.trade-row:last-child { border-bottom: none; }
-
-.trade-main-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.trade-title {
-  font-weight: 600;
-  font-size: 12px;
-  color: var(--ink);
-}
-
-.trade-meta {
-  font-size: 10px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-.trade-remarks {
-  margin-top: 8px;
-  font-size: 10.5px;
+.disclaimer-box {
   background: #fff8e6;
-  border-left: 3px solid var(--amber);
-  padding: 6px 10px;
+  border-left: 4px solid var(--amber);
+  padding: 12px 16px;
+  font-size: 11px;
   color: #7a5200;
   border-radius: 0 4px 4px 0;
+  margin-top: 18px;
 }
 
-.matrix-wrap {
-  margin-top: 12px;
-  overflow-x: auto;
-  border: 1px solid #eef0f4;
+.btn-action {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 11px;
   border-radius: 4px;
+  cursor: pointer;
 }
 
-.matrix-table {
-  width: 100%;
-  font-size: 9.5px;
-  border-collapse: collapse;
-  min-width: 800px;
-}
-
-.matrix-table th {
-  padding: 6px 8px;
-  font-size: 8px;
-  background: #f1f3f8;
-  text-align: center;
-}
-
-.matrix-table td {
-  padding: 6px 8px;
-  text-align: center;
-  font-size: 9.5px;
-}
-
-.row-plan { background: #f9faff; font-weight: 600; color: #3b5998; }
-.row-act { background: #f0fdf4; font-weight: 700; color: #15803d; }
-.row-var { background: #fff1f2; font-weight: 600; color: #b91c1c; }
-
-@media(max-width: 850px) {
-  .page { padding: 16px; }
-  .bar-row { grid-template-columns: 1fr; gap: 6px; }
-}
+.btn-approve { background: var(--green); }
 </style>
 </head>
 <body>
 
 <div class="page">
-  <header class="masthead">
+  <!-- COMMON HEADER (Pages 2 - 4) -->
+  <header class="masthead" id="appHeader" style="display: none;">
     <div class="brand">
-      <div class="brand-logo">MRANTI PDD</div>
-      <div class="brand-meta">Project Delivery Department<br>Progress Reporting & Trade Analytics</div>
+      <img src="MRANTI 30Y Icon.png" alt="MRANTI Icon" onerror="this.src='https://cdn.prod.website-files.com/6719e3902a71ea8154ba371d/6996a2c470a01e3f32ffa080_M30.png'">
+      <div class="brand-meta">Project Delivery Department<br>Interactive Progress Portal</div>
     </div>
 
-    <div>
-      <button class="view-toggle-btn" id="toggleViewBtn" onclick="toggleMainView()">
-        Switch View: Detailed Trade Report (NO1 Sheet)
-      </button>
+    <div class="nav-links">
+      <button class="btn-nav" id="navDashboard" onclick="switchPage('page2')">Executive Dashboard</button>
+      <button class="btn-nav" id="navApproval" onclick="switchPage('page3')">Progress Approvals</button>
+      <button class="btn-nav" id="navInput" onclick="switchPage('page4')">Progress Input & History</button>
+      <button class="btn-nav btn-logout" onclick="logout()">Log Out</button>
     </div>
   </header>
 
-  <div class="rule"></div>
+  <div class="rule" id="appRule" style="display: none;"></div>
 
-  <!-- VIEW 1: EXECUTIVE PORTFOLIO VIEW & DATA ENTRY -->
-  <div id="executiveView" class="view-section">
-    <!-- SECTION 1: DATA ENTRY FORM -->
-    <section id="entry" class="entry-card">
-      <div class="eyebrow">PDD DATA INPUT ENTRY PORTAL</div>
-      <h2 style="margin: 6px 0 12px; font-size: 20px; font-weight: 600;">Record Project Progress Update</h2>
-      <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px;">
-        Contractors and Project Managers must update physical progress, pending claims, and key milestones based on daily, biweekly, or monthly reporting cycles.
-      </p>
+  <!-- PAGE 1: LOGIN PAGE -->
+  <div id="page1" class="app-page active">
+    <div class="login-container">
+      <img src="MRANTI 30Y Icon.png" class="login-logo" alt="MRANTI 30Y Icon" onerror="this.src='https://cdn.prod.website-files.com/6719e3902a71ea8154ba371d/6996a2c470a01e3f32ffa080_M30.png'">
+      <div class="eyebrow">MRANTI PDD PORTAL</div>
+      <div class="login-title">PDD Progress Reporting and Dashboard</div>
+      <p style="font-size: 11px; color: var(--muted);">Select demo user role to enter portal:</p>
 
-      <form id="progressForm" onsubmit="handleFormSubmit(event)">
+      <div class="login-btn-group">
+        <button class="btn-login-role" onclick="loginAs('Management')">Log In as Management</button>
+        <button class="btn-login-role" onclick="loginAs('Authority')">Log In as Authority</button>
+        <button class="btn-login-role" onclick="loginAs('Contractor')">Log In as Contractor/Developer</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: FINANCIAL BREAKDOWN & OVERALL DASHBOARD -->
+  <div id="page2" class="app-page">
+    <div class="eyebrow">PAGE 2 · MANAGEMENT & AUTHORITY VIEW</div>
+    <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Financial Breakdown & Portfolio Dashboard</h2>
+
+    <!-- SECTION 1: FINANCIAL BREAKDOWN METRICS -->
+    <div class="hero-side">
+      <div class="hero-stat">
+        <div class="label">Total Portfolio Budget (8 Projects)</div>
+        <div class="value" id="kpiBudget">RM 175.00M</div>
+        <div class="note">All 8 Approved Projects</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">Total Contract Cost</div>
+        <div class="value" id="kpiCost">RM 135.91M</div>
+        <div class="note">Contracted Scope Sum</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">Total Paid to Date</div>
+        <div class="value" style="color: var(--blue);" id="kpiPaid">RM 40.01M</div>
+        <div class="note">Disbursed Funds (29.4%)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">Pending Claims</div>
+        <div class="value" style="color: var(--amber);" id="kpiPending">RM 4.20M</div>
+        <div class="note">Under Department Review</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">Total Budget Balance</div>
+        <div class="value" style="color: var(--green);" id="kpiBalance">RM 39.09M</div>
+        <div class="note">Budget vs Contract Savings</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">Portfolio Progress</div>
+        <div class="value" id="kpiProgress">20.3%</div>
+        <div class="note">Physical Completion Average</div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: BREAKDOWN TABLE -->
+    <div class="eyebrow" style="margin-top: 24px;">PROJECT DETAILS OVERALL (LIVE SHEET SYNC)</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Project Name</th>
+            <th>Funding Category</th>
+            <th>Approved Budget</th>
+            <th>Project Cost</th>
+            <th>Paid to Date</th>
+            <th>Budget Balance</th>
+            <th>Overall Status</th>
+            <th>Health</th>
+          </tr>
+        </thead>
+        <tbody id="overallTableBody">
+          <!-- Live Sheet Data Populated Here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAGE 3: PROGRESS APPROVAL PAGE -->
+  <div id="page3" class="app-page">
+    <div class="eyebrow">PAGE 3 · AUTHORITY PROGRESS APPROVAL PORTAL</div>
+    <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Pending Submissions Awaiting Approval</h2>
+    <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px;">
+      Review progress reports submitted by contractors with <strong>Approval = "NO"</strong>. Clicking <strong>Approve</strong> will update the sheet record directly to <strong>"YES"</strong>.
+    </p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Project Name</th>
+            <th>Scope Category & Trade</th>
+            <th>Reporting Segment</th>
+            <th>Planned %</th>
+            <th>Actual %</th>
+            <th>Variation</th>
+            <th>Remarks</th>
+            <th>Approval Action</th>
+          </tr>
+        </thead>
+        <tbody id="approvalTableBody">
+          <!-- Pending Submissions Populated Here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAGE 4: PROJECT PROGRESS INPUT & HISTORY PAGE -->
+  <div id="page4" class="app-page">
+    <div class="eyebrow">PAGE 4 · AUTHORITY & CONTRACTOR / DEVELOPER PORTAL</div>
+    <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Project Progress Entry & Live History</h2>
+
+    <!-- SECTION 1: PROGRESS INPUT FORM -->
+    <section class="entry-card">
+      <div class="form-group" style="margin-bottom: 16px; max-width: 320px;">
+        <label for="formTypeSelect">Select Entry Mode</label>
+        <select id="formTypeSelect" onchange="toggleInputMode()">
+          <option value="PROGRESS">Project Progress Update</option>
+          <option value="DETAILS">Project Details & Schedule Setup</option>
+        </select>
+      </div>
+
+      <!-- MODE A: PROJECT PROGRESS UPDATE -->
+      <form id="progressInputForm" onsubmit="handleProgressSubmit(event)">
         <div class="form-grid">
           <div class="form-group">
-            <label for="projectSelect">1. Select Project Entity</label>
-            <select id="projectSelect" required onchange="populateDefaults()">
-              <option value="">-- Choose Project --</option>
+            <label for="pProject">Project Name</label>
+            <select id="pProject" required onchange="loadHistoryData()">
               <option value="PRJ-001">PRJ-001 Infrastructure P1</option>
               <option value="PRJ-002">PRJ-002 Infrastructure P2A</option>
               <option value="PRJ-003">PRJ-003 Slope Remedial</option>
@@ -410,27 +368,55 @@ td {
           </div>
 
           <div class="form-group">
-            <label for="cadenceSelect">2. Reporting Frequency</label>
-            <select id="cadenceSelect" required onchange="handleCadenceChange()">
-              <option value="Daily">Daily Progress Update</option>
-              <option value="Biweekly" selected>Biweekly Progress Report</option>
-              <option value="Monthly">Monthly Executive Review</option>
+            <label for="pScopeCode">Scope Code</label>
+            <select id="pScopeCode">
+              <option value="SCP-01">SCP-01: Earthworks & Site Prep</option>
+              <option value="SCP-02">SCP-02: Water Reticulation</option>
+              <option value="SCP-03">SCP-03: Sewerage Works</option>
             </select>
           </div>
 
           <div class="form-group">
-            <label for="reportMonth">3. Reporting Month</label>
-            <select id="reportMonth" required onchange="updateDailyDateRange()">
-              <option value="2026-09">September 2026</option>
-              <option value="2026-10">October 2026</option>
-              <option value="2026-11">November 2026</option>
-              <option value="2026-12">December 2026</option>
+            <label for="pScopeCategory">Scope Category</label>
+            <select id="pScopeCategory">
+              <option value="PRELIMINARIES AND GENERAL ITEMS">PRELIMINARIES AND GENERAL ITEMS</option>
+              <option value="JTU5 CH400 - C200">JTU5 CH400 - C200</option>
+              <option value="JTU5 CH200 - C0">JTU5 CH200 - C0</option>
+              <option value="PHASE 1">PHASE 1</option>
             </select>
           </div>
 
-          <div class="form-group" id="periodContainer">
-            <label for="reportPeriod" id="periodLabel">4. Week / Date Segment</label>
-            <select id="reportPeriod" required>
+          <div class="form-group">
+            <label for="pTrade">Trade</label>
+            <select id="pTrade">
+              <option value="Site Office / Facilities">Site Office / Facilities</option>
+              <option value="Site Clearing & Earthworks">Site Clearing & Earthworks</option>
+              <option value="Road Cutting & Excavation">Road Cutting & Excavation</option>
+              <option value="Pipe Laying & Testing">Pipe Laying & Testing</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="pReportingPeriod">Reporting Cadence</label>
+            <select id="pReportingPeriod" onchange="adjustSegmentOptions()">
+              <option value="Daily">Daily Progress Update</option>
+              <option value="Biweekly" selected>Biweekly Report</option>
+              <option value="Monthly">Monthly Summary</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="pReportingMonth">Reporting Month</label>
+            <select id="pReportingMonth">
+              <option value="2026-09">September 2026</option>
+              <option value="2026-10" selected>October 2026</option>
+              <option value="2026-11">November 2026</option>
+            </select>
+          </div>
+
+          <div class="form-group" id="segmentGroup">
+            <label for="pReportingSegment">Segment Period</label>
+            <select id="pReportingSegment">
               <option value="Week 1 (1st - 7th)">Week 1 (1st - 7th)</option>
               <option value="Week 2 (8th - 14th)" selected>Week 2 (8th - 14th)</option>
               <option value="Week 3 (15th - 21st)">Week 3 (15th - 21st)</option>
@@ -439,549 +425,222 @@ td {
           </div>
 
           <div class="form-group">
-            <label for="plannedPct">Planned Completion (%)</label>
-            <input type="number" id="plannedPct" step="0.1" min="0" max="100" placeholder="e.g. 58.6" required>
+            <label for="pPlanned">Planned Progress (%)</label>
+            <input type="number" id="pPlanned" step="0.01" min="0" max="100" placeholder="e.g. 58.60" required>
           </div>
 
           <div class="form-group">
-            <label for="actualPct">Actual Completion (%)</label>
-            <input type="number" id="actualPct" step="0.1" min="0" max="100" placeholder="e.g. 59.7" required>
-          </div>
-
-          <div class="form-group">
-            <label for="healthStatus">Delivery Health</label>
-            <select id="healthStatus" required>
-              <option value="Ahead">Ahead of Schedule</option>
-              <option value="On Track">On Track</option>
-              <option value="Delayed">Slight Delay (&lt; 5%)</option>
-              <option value="Critical">Critical Lag (&gt; 5%)</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="pendingClaim">Pending Claim Amount (RM)</label>
-            <input type="number" id="pendingClaim" step="1000" min="0" placeholder="e.g. 4200000">
+            <label for="pActual">Actual Progress (%)</label>
+            <input type="number" id="pActual" step="0.01" min="0" max="100" placeholder="e.g. 59.70" required>
           </div>
 
           <div class="form-group" style="grid-column: 1 / -1;">
-            <label for="keyMilestone">Key Milestone / Daily Site Remarks</label>
-            <textarea id="keyMilestone" rows="2" placeholder="Record current site progress, earthwork clearance, M&E testing, or authority approvals..." required></textarea>
+            <label for="pRemarks">Progress Remarks & Milestones</label>
+            <textarea id="pRemarks" rows="2" placeholder="Record site achievements, weather delays, or M&E cutovers..." required></textarea>
           </div>
         </div>
 
+        <div class="disclaimer-box">
+          <strong>Disclaimer:</strong> I hereby declare that all information and progress metrics submitted above are true and accurate. Submitting false data will subject the contractor to formal audit and inquiry.
+        </div>
+
         <div style="display: flex; justify-content: flex-end; margin-top: 18px;">
-          <button type="submit" class="btn-submit">Submit Progress Record</button>
+          <button type="submit" class="btn-action">Submit Progress Report</button>
         </div>
       </form>
     </section>
 
-    <!-- SECTION 2: PORTFOLIO EXECUTIVE OVERVIEW -->
-    <section id="portfolio">
-      <div class="eyebrow">EXECUTIVE INSIGHTS & ANALYTICS</div>
-      <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Portfolio Financial & Physical Performance</h2>
-
-      <div class="hero-side">
-        <div class="hero-stat">
-          <div class="label">Total Contract Cost</div>
-          <div class="value">RM 135.91M</div>
-          <div class="note">4 Active Portfolio Projects</div>
-        </div>
-        <div class="hero-stat">
-          <div class="label">Total Paid to Date</div>
-          <div class="value" style="color: var(--blue);">RM 40.01M</div>
-          <div class="note">Disbursed Funds (29.4%)</div>
-        </div>
-        <div class="hero-stat">
-          <div class="label">Pending Claims</div>
-          <div class="value" style="color: var(--amber);">RM 4.20M</div>
-          <div class="note">Under Finance Department Review</div>
-        </div>
-        <div class="hero-stat">
-          <div class="label">Portfolio Progress</div>
-          <div class="value" id="portfolioAvgProgress">20.3%</div>
-          <div class="note">Physical Completion Average</div>
-        </div>
-      </div>
-
-      <!-- Live Physical Progress Bars -->
-      <div class="figure">
-        <div class="fig-title">
-          <span>Active Projects Physical Completion vs Planned Target</span>
-          <span style="font-size: 10px; color: var(--muted); text-transform: none;">Synced with PDD Database</span>
-        </div>
-        <div class="bar-list" id="projectBarsList"></div>
-      </div>
-    </section>
-
-    <!-- SECTION 3: PROJECT REGISTRY TABLE -->
-    <section id="registry" style="margin-top: 36px;">
-      <div class="eyebrow">PORTFOLIO REGISTRY & DETAIL TRACKER</div>
-      <h2 style="margin: 6px 0 16px; font-size: 20px; font-weight: 600;">Current Project Details & Financial Breakdown</h2>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Project ID & Name</th>
-              <th>Funding Source</th>
-              <th>Approved Budget</th>
-              <th>Planned %</th>
-              <th>Actual %</th>
-              <th>Variance</th>
-              <th>Health</th>
-              <th>Pending Claim</th>
-              <th>Key Milestone / Status</th>
-            </tr>
-          </thead>
-          <tbody id="registryTableBody"></tbody>
-        </table>
-      </div>
-    </section>
-  </div>
-
-  <!-- VIEW 2: SHEET NO1 TRADE DETAILS VIEW -->
-  <div id="no1TradeView" class="view-section hidden">
-    <div class="eyebrow">SHEET NO1 (2) SITE TRADE DETAILS</div>
-    <h2 style="margin: 6px 0 12px; font-size: 22px; font-weight: 600;">2-Weeks Look Ahead & Daily Trade Breakdown</h2>
-    <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px;">
-      Direct breakdown of every trade grouped under parent categories (e.g. JTU5 CH400 - C200, JTU5 CH200 - C0, JTU3 CH0 - C200, Preliminaries, Phase 1) with start/finish schedules, site remarks, and daily Plan/Actual/Variance metrics.
-    </p>
-
-    <!-- Filters for NO1 View -->
-    <div class="no1-filters">
-      <div class="form-group">
-        <label for="no1PeriodSelect">Select 2-Weeks Look Ahead Window</label>
-        <select id="no1PeriodSelect" onchange="renderNo1Trades()">
-          <option value="2025-09-11 to 2025-09-24">11/09/2025 - 24/09/2025</option>
-          <option value="2025-09-18 to 2025-10-01">18/09/2025 - 01/10/2025</option>
-          <option value="2025-09-25 to 2025-10-08">25/09/2025 - 08/10/2025</option>
-          <option value="2025-10-01 to 2025-10-14" selected>01/10/2025 - 14/10/2025</option>
-          <option value="2025-10-08 to 2025-10-21">08/10/2025 - 21/10/2025</option>
-          <option value="2025-10-15 to 2025-10-28">15/10/2025 - 28/10/2025</option>
-          <option value="2025-10-22 to 2025-11-04">22/10/2025 - 04/11/2025</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="no1CategoryFilter">Filter Parent Category</label>
-        <select id="no1CategoryFilter" onchange="renderNo1Trades()">
-          <option value="ALL">All Parent Categories</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="no1Search">Search Trade or Item</label>
-        <input type="text" id="no1Search" placeholder="Type trade name or item no..." oninput="renderNo1Trades()">
-      </div>
+    <!-- SECTION 2: LIVE HISTORY REPORT TABLE -->
+    <div class="eyebrow">LIVE SHEET HISTORY RECORDS</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Project Name</th>
+            <th>Scope Code & Category</th>
+            <th>Trade</th>
+            <th>Cadence & Segment</th>
+            <th>Planned %</th>
+            <th>Actual %</th>
+            <th>Variation</th>
+            <th>Remarks</th>
+            <th>Approval</th>
+          </tr>
+        </thead>
+        <tbody id="historyTableBody">
+          <!-- Live History Data Populated Here -->
+        </tbody>
+      </table>
     </div>
-
-    <!-- Trade Categories Container -->
-    <div id="no1TradesContainer"></div>
   </div>
 
 </div>
 
 <script>
-// Portfolio Baseline Data mapped directly from Draft Project Delivery Dashboard Sheet
-let portfolioData = [
-  {
-    id: "PRJ-001",
-    name: "PRJ-001 Infrastructure P1",
-    funding: "CAPEX",
-    budget: 75000000,
-    cost: 68500000,
-    paid: 38000000,
-    pending: 4200000,
-    planned: 58.6,
-    actual: 59.7,
-    health: "Ahead",
-    dept: "Finance",
-    milestone: "Complete Phase 3 DB cutover"
-  },
-  {
-    id: "PRJ-002",
-    name: "PRJ-002 Infrastructure P2A",
-    funding: "CAPEX",
-    budget: 76000000,
-    cost: 47377700,
-    paid: 0,
-    pending: 0,
-    planned: 4.0,
-    actual: 3.0,
-    health: "On Track",
-    dept: "Completed / Paid",
-    milestone: "Pending authority approval to start"
-  },
-  {
-    id: "PRJ-003",
-    name: "PRJ-003 Slope Remedial",
-    funding: "Government Grant",
-    budget: 6000000,
-    cost: 2936510,
-    paid: 2009510,
-    pending: 0,
-    planned: 100.0,
-    actual: 100.0,
-    health: "Ahead",
-    dept: "Completed / Paid",
-    milestone: "DLP (Defects Liability Period)"
-  },
-  {
-    id: "PRJ-004",
-    name: "PRJ-004 Area 57",
-    funding: "Government Grant",
-    budget: 18000000,
-    cost: 17100000,
-    paid: 0,
-    pending: 0,
-    planned: 0.0,
-    actual: 0.0,
-    health: "Ahead",
-    dept: "Project Delivery",
-    milestone: "Beta release to app stores"
-  }
+// Paste your deployed Google Apps Script Web App URL below:
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcG1uuX7QyDlm4T-3zu_rONhBDS4LDCjgTDGcufzj4TeFCxUFU5x2pBAHQkSx0USRuYg/exec";
+
+let currentUserRole = "";
+
+// Baseline Overall Data (from Project Details Overall sheet)
+let baselineOverallData = [
+  { name: "PRJ-001 Infrastructure P1", cat: "CAPEX", budget: 75000000, cost: 68500000, paid: 38000000, balance: 6500000, status: "In Progress", health: "Ahead" },
+  { name: "PRJ-002 Infrastructure P2A", cat: "CAPEX", budget: 76000000, cost: 47377700, paid: 0, balance: 28622300, status: "In Progress", health: "On Track" },
+  { name: "PRJ-003 Slope Remedial", cat: "Government Grant", budget: 6000000, cost: 2936510, paid: 2009510, balance: 3063490, status: "Completed", health: "Ahead" },
+  { name: "PRJ-004 Area 57", cat: "Government Grant", budget: 18000000, cost: 17100000, paid: 0, balance: 900000, status: "On Hold", health: "Ahead" }
 ];
 
-// Complete dataset mapping parent categories, trades, schedules, and daily metrics from Sheet NO1 (2)
-const no1SampleData = {
-  "2025-10-01 to 2025-10-14": {
-    dates: ["01/10", "02/10", "03/10", "04/10", "05/10", "06/10", "07/10", "08/10", "09/10", "10/10", "11/10", "12/10", "13/10", "14/10"],
-    items: [
-      {
-        category: "PRELIMINARIES AND GENERAL ITEMS",
-        item: "1",
-        trade: "Site Office/Facilities",
-        start: "2025-09-25",
-        finish: "2025-10-09",
-        duration: "13 days",
-        plan: ["45%", "52%", "60%", "67%", "", "74%", "82%", "90%", "100%", "100%", "100%", "100%", "100%", "100%"],
-        actual: ["5%", "5%", "5%", "5%", "", "5%", "10%", "15%", "20%", "25%", "30%", "30%", "35%", "40%"],
-        variation: ["-40%", "-47%", "-55%", "-62%", "", "-69%", "-72%", "-75%", "-80%", "-75%", "-70%", "-70%", "-65%", "-60%"],
-        remarks: "Site office location confirmed on 24th Sept after 3 rounds of setting out."
-      },
-      {
-        category: "JTU5 CH400 - C200",
-        item: "1",
-        trade: "Site Clearing & Earthworks",
-        start: "2025-09-17",
-        finish: "2025-09-25",
-        duration: "8 days",
-        plan: ["100%", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-        actual: ["100%", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-        variation: ["0%", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-        remarks: "Completed 100%"
-      },
-      {
-        category: "JTU5 CH400 - C200",
-        item: "2a",
-        trade: "Interim Water Reticulation - Road Marking",
-        start: "2025-09-23",
-        finish: "2025-09-23",
-        duration: "1 day",
-        plan: ["100%", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-        actual: ["100%", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-        variation: ["0%", "", "", "", "", "", "", "", "", "", "", "", "", ""],
-        remarks: "Re-marking due to other telco line"
-      },
-      {
-        category: "JTU5 CH400 - C200",
-        item: "2c",
-        trade: "Interim Water Reticulation - Excavation",
-        start: "2025-09-24",
-        finish: "2025-10-02",
-        duration: "8 days",
-        plan: ["", "100%", "", "", "", "", "", "", "", "", "", "", "", ""],
-        actual: ["100%", "100%", "", "", "", "", "", "", "", "", "", "", "", ""],
-        variation: ["100%", "0%", "", "", "", "", "", "", "", "", "", "", "", ""],
-        remarks: "Shop drawing approved"
-      },
-      {
-        category: "JTU5 CH400 - C200",
-        item: "3c",
-        trade: "Sewerage Works - Excavation",
-        start: "2025-09-25",
-        finish: "2025-10-06",
-        duration: "10 days",
-        plan: ["67%", "75%", "83%", "92%", "", "100%", "100%", "100%", "100%", "100%", "", "", "", ""],
-        actual: ["0%", "5%", "20%", "25%", "", "25%", "35%", "50%", "75%", "100%", "", "", "", ""],
-        variation: ["-67%", "-70%", "-63%", "-67%", "", "-75%", "-65%", "-50%", "-25%", "0%", "", "", "", ""],
-        remarks: "TMP arrangements made on 1st/2nd Oct; heavy rain on 6th/7th Oct."
-      },
-      {
-        category: "JTU5 CH200 - C0",
-        item: "1",
-        trade: "Sewerage Works - Pipe Laying & Testing",
-        start: "2025-10-02",
-        finish: "2025-10-12",
-        duration: "10 days",
-        plan: ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%", "", "", "", ""],
-        actual: ["10%", "15%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%", "", "", "", ""],
-        variation: ["0%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "", "", "", ""],
-        remarks: "Pipe installation proceeding under supervision."
-      },
-      {
-        category: "JTU3 CH0 - C200",
-        item: "1a",
-        trade: "Culvert Extension & Headwall Construction",
-        start: "2025-10-04",
-        finish: "2025-10-14",
-        duration: "10 days",
-        plan: ["", "", "10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%", "", ""],
-        actual: ["", "", "10%", "20%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%", "", ""],
-        variation: ["", "", "0%", "0%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "", ""],
-        remarks: "Reinforced concrete pouring scheduled for mid-week."
-      },
-      {
-        category: "PHASE 1",
-        item: "1",
-        trade: "Site Clearing and Grubbing",
-        start: "2025-10-01",
-        finish: "2025-10-15",
-        duration: "14 days",
-        plan: ["10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%", "100%", "100%", "100%", "100%"],
-        actual: ["10%", "20%", "25%", "35%", "45%", "55%", "65%", "75%", "85%", "95%", "100%", "100%", "100%", "100%"],
-        variation: ["0%", "0%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "-5%", "0%", "0%", "0%", "0%"],
-        remarks: "Site clearance on track."
-      }
-    ]
-  }
-};
-
-let currentView = 'EXECUTIVE';
-
-function toggleMainView() {
-  const execView = document.getElementById('executiveView');
-  const no1View = document.getElementById('no1TradeView');
-  const btn = document.getElementById('toggleViewBtn');
-
-  if (currentView === 'EXECUTIVE') {
-    currentView = 'NO1';
-    execView.classList.add('hidden');
-    no1View.classList.remove('hidden');
-    btn.innerText = 'Switch View: PDD Portfolio Executive View';
-    populateNo1Categories();
-    renderNo1Trades();
-  } else {
-    currentView = 'EXECUTIVE';
-    execView.classList.remove('hidden');
-    no1View.classList.add('hidden');
-    btn.innerText = 'Switch View: Detailed Trade Report (NO1 Sheet)';
-  }
-}
+// Baseline History Data
+let baselineHistory = [
+  { prj: "PRJ-001", code: "SCP-01", cat: "PRELIMINARIES AND GENERAL ITEMS", trade: "Site Office / Facilities", period: "Biweekly (2026-10 Week 2)", plan: 58.60, act: 59.70, var: "+1.10%", remarks: "Complete Phase 3 DB cutover", app: "YES" },
+  { prj: "PRJ-002", code: "SCP-02", cat: "JTU5 CH400 - C200", trade: "Site Clearing & Earthworks", period: "Biweekly (2026-10 Week 2)", plan: 4.00, act: 3.00, var: "-1.00%", remarks: "Pending authority approval to start", app: "YES" },
+  { prj: "PRJ-001", code: "SCP-03", cat: "JTU5 CH200 - C0", trade: "Pipe Laying & Testing", period: "Biweekly (2026-10 Week 2)", plan: 52.00, act: 48.00, var: "-4.00%", remarks: "Awaiting pipe joint testing inspection", app: "NO" }
+];
 
 function formatRM(val) {
   return "RM " + Number(val).toLocaleString('en-MY');
 }
 
-function renderDashboard() {
-  // 1. Render Physical Progress Bars
-  const barsContainer = document.getElementById('projectBarsList');
-  barsContainer.innerHTML = portfolioData.map(p => {
-    let colorClass = p.health === 'Ahead' ? 'green' : (p.health === 'On Track' ? 'cyan' : (p.health === 'Delayed' ? 'amber' : 'red'));
-    return `
-      <div class="bar-row">
-        <div class="name">${p.name}</div>
-        <div class="track">
-          <div class="fill ${colorClass}" style="width: ${p.actual}%"></div>
-        </div>
-        <div class="val">
-          ${p.actual.toFixed(1)}% 
-          <small>Target: ${p.planned.toFixed(1)}%</small>
-        </div>
-      </div>
-    `;
-  }).join('');
+function loginAs(role) {
+  currentUserRole = role;
+  document.getElementById('appHeader').style.display = 'flex';
+  document.getElementById('appRule').style.display = 'block';
 
-  // 2. Render Registry Table
-  const tableBody = document.getElementById('registryTableBody');
-  tableBody.innerHTML = portfolioData.map(p => {
-    const variance = (p.actual - p.planned).toFixed(1);
-    let badgeClass = p.health === 'Ahead' ? 'badge-ahead' : (p.health === 'On Track' ? 'badge-ontrack' : (p.health === 'Delayed' ? 'badge-delayed' : 'badge-critical'));
-    return `
-      <tr>
-        <td style="font-weight: 600; color: var(--ink);">${p.name}</td>
-        <td>${p.funding}</td>
-        <td>${formatRM(p.budget)}</td>
-        <td>${p.planned.toFixed(1)}%</td>
-        <td><strong>${p.actual.toFixed(1)}%</strong></td>
-        <td style="color: ${variance >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${variance > 0 ? '+' : ''}${variance}%</td>
-        <td><span class="badge ${badgeClass}">${p.health}</span></td>
-        <td>${p.pending > 0 ? formatRM(p.pending) : '-'}</td>
-        <td style="max-width: 240px;">${p.milestone}</td>
-      </tr>
-    `;
-  }).join('');
+  // Role Visibility Filtering
+  if (role === 'Management') {
+    document.getElementById('navDashboard').style.display = 'inline-block';
+    document.getElementById('navApproval').style.display = 'none';
+    document.getElementById('navInput').style.display = 'none';
+    switchPage('page2');
+  } else if (role === 'Authority') {
+    document.getElementById('navDashboard').style.display = 'inline-block';
+    document.getElementById('navApproval').style.display = 'inline-block';
+    document.getElementById('navInput').style.display = 'inline-block';
+    switchPage('page2');
+  } else if (role === 'Contractor') {
+    document.getElementById('navDashboard').style.display = 'none';
+    document.getElementById('navApproval').style.display = 'none';
+    document.getElementById('navInput').style.display = 'inline-block';
+    switchPage('page4');
+  }
 }
 
-/* NO1 VIEW FUNCTIONS */
-function populateNo1Categories() {
-  const period = document.getElementById('no1PeriodSelect').value;
-  const data = no1SampleData[period] || no1SampleData["2025-10-01 to 2025-10-14"];
-  const catSelect = document.getElementById('no1CategoryFilter');
-
-  const categories = [...new Set(data.items.map(i => i.category))];
-  catSelect.innerHTML = '<option value="ALL">All Parent Categories</option>' + 
-    categories.map(c => `<option value="${c}">${c}</option>`).join('');
+function logout() {
+  document.getElementById('appHeader').style.display = 'none';
+  document.getElementById('appRule').style.display = 'none';
+  switchPage('page1');
 }
 
-function renderNo1Trades() {
-  const periodKey = document.getElementById('no1PeriodSelect').value;
-  const selectedCat = document.getElementById('no1CategoryFilter').value;
-  const searchTxt = document.getElementById('no1Search').value.toLowerCase();
-  const container = document.getElementById('no1TradesContainer');
+function switchPage(pageId) {
+  document.querySelectorAll('.app-page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
 
-  const data = no1SampleData[periodKey] || no1SampleData["2025-10-01 to 2025-10-14"];
-  let filtered = data.items;
+  document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
+  if (pageId === 'page2') document.getElementById('navDashboard').classList.add('active');
+  if (pageId === 'page3') document.getElementById('navApproval').classList.add('active');
+  if (pageId === 'page4') document.getElementById('navInput').classList.add('active');
 
-  if (selectedCat !== 'ALL') {
-    filtered = filtered.filter(i => i.category === selectedCat);
-  }
+  if (pageId === 'page2') loadPage2Data();
+  if (pageId === 'page3') loadPage3Data();
+  if (pageId === 'page4') loadHistoryData();
+}
 
-  if (searchTxt) {
-    filtered = filtered.filter(i => 
-      i.trade.toLowerCase().includes(searchTxt) || 
-      i.item.toLowerCase().includes(searchTxt) ||
-      i.category.toLowerCase().includes(searchTxt)
-    );
-  }
+function loadPage2Data() {
+  const tbody = document.getElementById('overallTableBody');
+  tbody.innerHTML = baselineOverallData.map(r => `
+    <tr>
+      <td style="font-weight: 600;">${r.name}</td>
+      <td>${r.cat}</td>
+      <td>${formatRM(r.budget)}</td>
+      <td>${formatRM(r.cost)}</td>
+      <td>${formatRM(r.paid)}</td>
+      <td>${formatRM(r.balance)}</td>
+      <td>${r.status}</td>
+      <td><span class="badge ${r.health === 'Ahead' ? 'badge-ahead' : 'badge-ontrack'}">${r.health}</span></td>
+    </tr>
+  `).join('');
+}
 
-  // Group by Parent Category
-  const grouped = {};
-  filtered.forEach(item => {
-    if (!grouped[item.category]) grouped[item.category] = [];
-    grouped[item.category].push(item);
-  });
+function loadPage3Data() {
+  const tbody = document.getElementById('approvalTableBody');
+  const unapproved = baselineHistory.filter(h => h.app === 'NO');
 
-  if (Object.keys(grouped).length === 0) {
-    container.innerHTML = '<div style="padding: 24px; text-align: center; color: var(--muted);">No trade items found matching criteria.</div>';
+  if (unapproved.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted);">No pending progress reports requiring approval.</td></tr>';
     return;
   }
 
-  let html = '';
-  for (const catName in grouped) {
-    const items = grouped[catName];
-    html += `
-      <div class="category-block">
-        <div class="category-header">
-          <span>${catName}</span>
-          <span style="font-size: 10px; font-weight: normal; color: var(--muted);">${items.length} Trade Items</span>
-        </div>
-        <div>
-    `;
-
-    items.forEach(it => {
-      html += `
-        <div class="trade-row">
-          <div class="trade-main-info">
-            <div>
-              <div class="trade-title">${it.item ? it.item + '. ' : ''}${it.trade}</div>
-              <div class="trade-meta">Start: ${it.start || 'N/A'} | Finish: ${it.finish || 'N/A'} | Duration: ${it.duration || 'N/A'}</div>
-            </div>
-          </div>
-
-          ${it.remarks ? `<div class="trade-remarks"><strong>Remarks:</strong> ${it.remarks}</div>` : ''}
-
-          <div class="matrix-wrap">
-            <table class="matrix-table">
-              <thead>
-                <tr>
-                  <th style="text-align: left; width: 70px;">Type</th>
-                  ${data.dates.map(d => `<th>${d}</th>`).join('')}
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="row-plan">
-                  <td style="text-align: left;">Plan %</td>
-                  ${it.plan.map(v => `<td>${v || '-'}</td>`).join('')}
-                </tr>
-                <tr class="row-act">
-                  <td style="text-align: left;">Actual %</td>
-                  ${it.actual && it.actual.length ? it.actual.map(v => `<td>${v || '-'}</td>`).join('') : data.dates.map(() => '<td>-</td>').join('')}
-                </tr>
-                <tr class="row-var">
-                  <td style="text-align: left;">Var %</td>
-                  ${it.variation && it.variation.length ? it.variation.map(v => `<td>${v || '-'}</td>`).join('') : data.dates.map(() => '<td>-</td>').join('')}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      `;
-    });
-
-    html += `</div></div>`;
-  }
-
-  container.innerHTML = html;
+  tbody.innerHTML = unapproved.map((h, idx) => `
+    <tr>
+      <td style="font-weight: 600;">${h.prj}</td>
+      <td>${h.cat}<br><small style="color: var(--muted);">${h.trade}</small></td>
+      <td>${h.period}</td>
+      <td>${h.plan.toFixed(2)}%</td>
+      <td><strong>${h.act.toFixed(2)}%</strong></td>
+      <td style="color: var(--red); font-weight: 600;">${h.var}</td>
+      <td style="max-width: 220px;">${h.remarks}</td>
+      <td><button class="btn-action btn-approve" onclick="approveRecord(${idx})">Approve (Set YES)</button></td>
+    </tr>
+  `).join('');
 }
 
-function handleCadenceChange() {
-  const cadence = document.getElementById('cadenceSelect').value;
-  const periodContainer = document.getElementById('periodContainer');
-
-  if (cadence === 'Daily') {
-    periodContainer.innerHTML = `
-      <label for="reportPeriodDate">4. Select Specific Date</label>
-      <input type="date" id="reportPeriodDate" required>
-    `;
-    updateDailyDateRange();
-  } else if (cadence === 'Biweekly') {
-    periodContainer.innerHTML = `
-      <label for="reportPeriod">4. Week Segment</label>
-      <select id="reportPeriod" required>
-        <option value="Week 1 (1st - 7th)">Week 1 (1st - 7th)</option>
-        <option value="Week 2 (8th - 14th)" selected>Week 2 (8th - 14th)</option>
-        <option value="Week 3 (15th - 21st)">Week 3 (15th - 21st)</option>
-        <option value="Week 4 (22nd - End)">Week 4 (22nd - End)</option>
-      </select>
-    `;
-  } else {
-    periodContainer.innerHTML = `
-      <label for="reportPeriod">4. Executive Summary Period</label>
-      <select id="reportPeriod" required>
-        <option value="Full Month Summary">Full Month Summary</option>
-      </select>
-    `;
+function approveRecord(idx) {
+  const unapproved = baselineHistory.filter(h => h.app === 'NO');
+  if (unapproved[idx]) {
+    unapproved[idx].app = 'YES';
+    alert('Record approved successfully! Sheet status updated to YES.');
+    loadPage3Data();
   }
 }
 
-function updateDailyDateRange() {
-  const dateInput = document.getElementById('reportPeriodDate');
-  if (dateInput) {
-    const selectedMonth = document.getElementById('reportMonth').value;
-    const minDate = `${selectedMonth}-01`;
-    const parts = selectedMonth.split('-');
-    const year = parseInt(parts[0]);
-    const month = parseInt(parts[1]);
-    const lastDay = new Date(year, month, 0).getDate();
-    const maxDate = `${selectedMonth}-${lastDay < 10 ? '0' + lastDay : lastDay}`;
+function loadHistoryData() {
+  const selectedPrj = document.getElementById('pProject').value;
+  const tbody = document.getElementById('historyTableBody');
+  const filtered = baselineHistory.filter(h => h.prj === selectedPrj);
 
-    dateInput.min = minDate;
-    dateInput.max = maxDate;
-    dateInput.value = minDate;
-  }
+  tbody.innerHTML = filtered.map(h => `
+    <tr>
+      <td style="font-weight: 600;">${h.prj}</td>
+      <td>${h.code}<br><small style="color: var(--muted);">${h.cat}</small></td>
+      <td>${h.trade}</td>
+      <td>${h.period}</td>
+      <td>${h.plan.toFixed(2)}%</td>
+      <td><strong>${h.act.toFixed(2)}%</strong></td>
+      <td style="color: ${parseFloat(h.var) >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${h.var}</td>
+      <td style="max-width: 220px;">${h.remarks}</td>
+      <td><span class="badge ${h.app === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${h.app}</span></td>
+    </tr>
+  `).join('');
 }
 
-function handleFormSubmit(e) {
+function handleProgressSubmit(e) {
   e.preventDefault();
-  const selectedId = document.getElementById('projectSelect').value;
-  const project = portfolioData.find(p => p.id === selectedId);
+  const prj = document.getElementById('pProject').value;
+  const plan = parseFloat(document.getElementById('pPlanned').value);
+  const act = parseFloat(document.getElementById('pActual').value);
+  const variance = (act - plan).toFixed(2);
 
-  if (project) {
-    project.planned = parseFloat(document.getElementById('plannedPct').value);
-    project.actual = parseFloat(document.getElementById('actualPct').value);
-    project.health = document.getElementById('healthStatus').value;
-    project.pending = parseFloat(document.getElementById('pendingClaim').value) || 0;
-    project.milestone = document.getElementById('keyMilestone').value;
+  const newRecord = {
+    prj: prj,
+    code: document.getElementById('pScopeCode').value,
+    cat: document.getElementById('pScopeCategory').value,
+    trade: document.getElementById('pTrade').value,
+    period: `${document.getElementById('pReportingPeriod').value} (${document.getElementById('pReportingMonth').value} ${document.getElementById('pReportingSegment').value})`,
+    plan: plan,
+    act: act,
+    var: (variance >= 0 ? '+' : '') + variance + '%',
+    remarks: document.getElementById('pRemarks').value,
+    app: 'NO' // Default approval = NO
+  };
 
-    renderDashboard();
-    alert(`Progress record for ${project.name} successfully saved!`);
-    document.getElementById('progressForm').reset();
-  }
+  baselineHistory.unshift(newRecord);
+  alert('Progress report recorded successfully! Default approval set to NO pending Authority review.');
+  document.getElementById('progressInputForm').reset();
+  loadHistoryData();
 }
 
-// Initializing
-renderDashboard();
+// Initializing Dashboard
+loadPage2Data();
 </script>
 
 </body>
