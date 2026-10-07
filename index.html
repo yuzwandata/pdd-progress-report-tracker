@@ -121,7 +121,7 @@ button, input, select, textarea { font: inherit; }
 }
 .btn-login-role:hover { opacity: 0.9; }
 
-/* Page 2 Summary Headline Cards */
+/* Page 2 Headline Cards */
 .hero-side {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -140,7 +140,7 @@ button, input, select, textarea { font: inherit; }
 .hero-stat .value { font-size: 24px; font-weight: 600; color: var(--ink); margin-top: 6px; }
 .hero-stat .note { font-size: 10px; color: var(--muted); margin-top: 4px; }
 
-/* Dynamic Monthly S-Curve Chart */
+/* Dynamic S-Curve Graph */
 .chart-box {
   background: var(--soft);
   border: 1px solid var(--line);
@@ -152,15 +152,15 @@ button, input, select, textarea { font: inherit; }
 .chart-bar-container {
   display: flex;
   align-items: flex-end;
-  height: 200px;
-  gap: 6px;
-  padding-top: 24px;
+  height: 210px;
+  gap: 8px;
+  padding-top: 28px;
   overflow-x: auto;
 }
 
 .chart-col {
   flex: 1;
-  min-width: 42px;
+  min-width: 45px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -171,7 +171,7 @@ button, input, select, textarea { font: inherit; }
 .bar-wrapper {
   display: flex;
   align-items: flex-end;
-  gap: 2px;
+  gap: 3px;
   height: 100%;
   width: 100%;
   justify-content: center;
@@ -182,16 +182,16 @@ button, input, select, textarea { font: inherit; }
 
 .pct-tag {
   position: absolute;
-  top: -16px;
+  top: -18px;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 7.5px;
+  font-size: 8px;
   font-weight: 700;
   color: var(--ink);
   white-space: nowrap;
 }
 
-.col-label { font-size: 8px; color: var(--muted); margin-top: 8px; transform: rotate(-30deg); transform-origin: left top; }
+.col-label { font-size: 8.5px; color: var(--muted); margin-top: 8px; transform: rotate(-30deg); transform-origin: left top; }
 
 /* Tables */
 .table-wrap { overflow-x: auto; background: white; border: 1px solid var(--line); border-radius: 6px; margin-top: 16px; }
@@ -208,14 +208,13 @@ th {
 }
 td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; color: #354052; }
 
-/* Colored Badges */
 .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 9px; font-weight: 600; text-transform: uppercase; }
 .badge-ahead { background: #e6f9f0; color: var(--green); }
 .badge-ontrack { background: #eefbff; color: var(--blue); }
 .badge-planned { background: #f1f3f8; color: var(--gray); }
 .badge-delayed { background: #ffebeb; color: var(--red); }
 
-/* Forms & Warnings */
+/* Forms & Warning */
 .entry-card {
   background: var(--softb);
   border: 1px solid #c8d2ff;
@@ -319,31 +318,31 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
     <div class="eyebrow">PAGE 2 · MANAGEMENT & AUTHORITY VIEW</div>
     <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Financial Breakdown & Portfolio Dashboard</h2>
 
-    <!-- Summary Headline Cards Rounded to Nearest Thousand -->
+    <!-- Summary Headline Cards Formatted in M / k -->
     <div class="hero-side">
       <div class="hero-stat">
         <div class="label">Total Portfolio Budget</div>
-        <div class="value" id="kpiBudget">RM 175,000,000</div>
+        <div class="value" id="kpiBudget">RM 175.0M</div>
         <div class="note">All 8 Approved Projects</div>
       </div>
       <div class="hero-stat">
         <div class="label">Total Contract Cost</div>
-        <div class="value" id="kpiCost">RM 135,915,000</div>
+        <div class="value" id="kpiCost">RM 135.915M</div>
         <div class="note">Contracted Scope Sum</div>
       </div>
       <div class="hero-stat">
         <div class="label">Total Paid to Date</div>
-        <div class="value" style="color: var(--blue);" id="kpiPaid">RM 40,010,000</div>
+        <div class="value" style="color: var(--blue);" id="kpiPaid">RM 40.01M</div>
         <div class="note">Disbursed Funds</div>
       </div>
       <div class="hero-stat">
         <div class="label">Pending Claims</div>
-        <div class="value" style="color: var(--amber);" id="kpiPending">RM 4,200,000</div>
+        <div class="value" style="color: var(--amber);" id="kpiPending">RM 4.2M</div>
         <div class="note">Under Department Review</div>
       </div>
       <div class="hero-stat">
         <div class="label">Total Budget Balance</div>
-        <div class="value" style="color: var(--green);" id="kpiBalance">RM 39,086,000</div>
+        <div class="value" style="color: var(--green);" id="kpiBalance">RM 39.086M</div>
         <div class="note">Budget vs Contract Savings</div>
       </div>
       <div class="hero-stat">
@@ -373,25 +372,34 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </table>
     </div>
 
-    <!-- Project Monthly Tracking Graph Section -->
+    <!-- Project Monthly Tracking Graph Section with Year & Project Selectors -->
     <div class="chart-box">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
         <div>
           <div class="eyebrow">MONTHLY TRAJECTORY ANALYTICS</div>
           <h3 style="margin: 4px 0 0; font-size: 16px; font-weight: 600;">Project Progress S-Curve Analysis</h3>
         </div>
-        <div style="min-width: 260px;">
-          <label for="chartProjectSelect" style="font-size: 9px; font-weight: 700; text-transform: uppercase;">Select Project View:</label>
-          <select id="chartProjectSelect" onchange="loadMonthlyTrackingGraph()" style="width: 100%; border: 1px solid var(--line); padding: 8px; font-size: 11px; border-radius: 4px;">
-            <option value="PRJ-001">PRJ-001: Infrastructure P1</option>
-            <option value="PRJ-002">PRJ-002: Infrastructure P2A</option>
-            <option value="PRJ-003">PRJ-003: Slope Remedial</option>
-            <option value="PRJ-004">PRJ-004: Area 57</option>
-            <option value="PRJ-005">PRJ-005: AI Customer Support Bot</option>
-            <option value="PRJ-006">PRJ-006: Data Lakehouse & BI Hub</option>
-            <option value="PRJ-007">PRJ-007: Supply Chain Automation</option>
-            <option value="PRJ-008">PRJ-008: Cyber Security Zero-Trust</option>
-          </select>
+        <div style="display: flex; gap: 10px; min-width: 380px;">
+          <div style="flex: 1;">
+            <label for="chartProjectSelect" style="font-size: 9px; font-weight: 700; text-transform: uppercase;">Project View:</label>
+            <select id="chartProjectSelect" onchange="loadMonthlyTrackingGraph()" style="width: 100%; border: 1px solid var(--line); padding: 7px; font-size: 11px; border-radius: 4px;">
+              <option value="PRJ-001">PRJ-001: Infrastructure P1</option>
+              <option value="PRJ-002">PRJ-002: Infrastructure P2A</option>
+              <option value="PRJ-003">PRJ-003: Slope Remedial</option>
+              <option value="PRJ-004">PRJ-004: Area 57</option>
+              <option value="PRJ-005">PRJ-005: AI Customer Support Bot</option>
+              <option value="PRJ-006">PRJ-006: Data Lakehouse & BI Hub</option>
+              <option value="PRJ-007">PRJ-007: Supply Chain Automation</option>
+              <option value="PRJ-008">PRJ-008: Cyber Security Zero-Trust</option>
+            </select>
+          </div>
+          <div style="width: 110px;">
+            <label for="chartYearSelect" style="font-size: 9px; font-weight: 700; text-transform: uppercase;">Year View:</label>
+            <select id="chartYearSelect" onchange="loadMonthlyTrackingGraph()" style="width: 100%; border: 1px solid var(--line); padding: 7px; font-size: 11px; border-radius: 4px;">
+              <option value="2026" selected>2026</option>
+              <option value="2027">2027</option>
+            </select>
+          </div>
         </div>
       </div>
 
@@ -455,7 +463,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
         <div class="form-grid">
           <div class="form-group">
             <label for="pPrj">Project Name</label>
-            <select id="pPrj" required onchange="onProjectChangeProgress()">
+            <select id="pPrj" required onchange="fetchProjectMetadataAndHistory()">
               <option value="PRJ-001">Infrastructure P1 (PRJ-001)</option>
               <option value="PRJ-002">Infrastructure P2A (PRJ-002)</option>
               <option value="PRJ-003">Slope Remedial (PRJ-003)</option>
@@ -469,17 +477,17 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 
           <div class="form-group">
             <label for="pScopeCode">Scope Code</label>
-            <select id="pScopeCode"><option value="SCP-01">SCP-01</option></select>
+            <select id="pScopeCode" required onchange="onScopeCodeSelectChange()"><option value="">Loading metadata...</option></select>
           </div>
 
           <div class="form-group">
             <label for="pScopeCat">Scope Category</label>
-            <select id="pScopeCat"><option value="PRELIMINARIES AND GENERAL ITEMS">PRELIMINARIES AND GENERAL ITEMS</option></select>
+            <select id="pScopeCat" required><option value="">Loading metadata...</option></select>
           </div>
 
           <div class="form-group">
             <label for="pTrade">Trade</label>
-            <select id="pTrade"><option value="Site Office / Facilities">Site Office / Facilities</option></select>
+            <select id="pTrade" required><option value="">Loading metadata...</option></select>
           </div>
 
           <div class="form-group">
@@ -550,7 +558,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
         <div class="form-grid">
           <div class="form-group">
             <label for="sPrj">Project Name</label>
-            <select id="sPrj" required onchange="onProjectChangeSetup()">
+            <select id="sPrj" required>
               <option value="PRJ-001">Infrastructure P1 (PRJ-001)</option>
               <option value="PRJ-002">Infrastructure P2A (PRJ-002)</option>
               <option value="PRJ-003">Slope Remedial (PRJ-003)</option>
@@ -603,16 +611,20 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
       <div class="eyebrow">LIVE SHEET HISTORY RECORDS</div>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <select id="filterPrj" onchange="loadFilteredHistory()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
+        <select id="filterPrj" onchange="fetchProjectHistory()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
           <option value="PRJ-001">Filter: PRJ-001</option>
           <option value="PRJ-002">Filter: PRJ-002</option>
           <option value="PRJ-003">Filter: PRJ-003</option>
           <option value="PRJ-004">Filter: PRJ-004</option>
+          <option value="PRJ-005">Filter: PRJ-005</option>
+          <option value="PRJ-006">Filter: PRJ-006</option>
+          <option value="PRJ-007">Filter: PRJ-007</option>
+          <option value="PRJ-008">Filter: PRJ-008</option>
         </select>
-        <select id="filterCat" onchange="loadFilteredHistory()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
+        <select id="filterCat" onchange="applyHistoryFilters()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
           <option value="ALL">All Categories</option>
         </select>
-        <select id="filterTrade" onchange="loadFilteredHistory()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
+        <select id="filterTrade" onchange="applyHistoryFilters()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
           <option value="ALL">All Trades</option>
         </select>
       </div>
@@ -642,7 +654,8 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 </div>
 
 <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcbobGnfFaCuxSJjPiNHrrF9u1xbFTR_Ov_SUKolDlZcKeOQLZ2xsy8qsyPokbcFm3yw/exec"; // Paste Apps Script URL here
+// Paste Google Apps Script Web App URL below:
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzsjsDZr98FRabIjKhts7NNz7N3muP8DFLZ6yFdjlj6rSX4aYDim3SNlEmuK1xP4cSGA/exec";
 
 // Exact Financial Baseline from Project Details Overall Sheet
 let baselineOverallData = [
@@ -656,36 +669,95 @@ let baselineOverallData = [
   { id: "PRJ-008", name: "Cyber Security Zero-Trust", cat: "Government Grant", budget: 0.00, cost: 0.00, paid: 0.00, claim: 0.00, balance: 0.00, status: "Planning", health: "Planned" }
 ];
 
-// Monthly S-Curve Tracking Data from Sheet
-const sampleMonthlyMap = {
-  "PRJ-001": [
-    { m: "Jan 26", plan: 3.50, act: 3.50 }, { m: "Feb 26", plan: 8.00, act: 7.00 },
-    { m: "Mar 26", plan: 13.00, act: 12.00 }, { m: "Apr 26", plan: 19.00, act: 18.00 },
-    { m: "May 26", plan: 26.00, act: 24.00 }, { m: "Jun 26", plan: 33.00, act: 31.00 },
-    { m: "Jul 26", plan: 41.00, act: 38.00 }, { m: "Aug 26", plan: 49.00, act: 46.00 },
-    { m: "Sep 26", plan: 58.62, act: 59.73 }, { m: "Oct 26", plan: 68.00, act: null },
-    { m: "Nov 26", plan: 78.00, act: null }, { m: "Dec 26", plan: 88.00, act: null }
-  ],
-  "PRJ-002": [
-    { m: "Jan 26", plan: 0.00, act: 0.00 }, { m: "Feb 26", plan: 0.00, act: 0.00 },
-    { m: "Mar 26", plan: 5.00, act: 5.00 }, { m: "Apr 26", plan: 15.00, act: 14.00 },
-    { m: "May 26", plan: 28.00, act: 25.00 }, { m: "Jun 26", plan: 42.00, act: 38.00 },
-    { m: "Jul 26", plan: 55.00, act: 50.00 }, { m: "Aug 26", plan: 65.00, act: 60.00 },
-    { m: "Sep 26", plan: 70.00, act: 65.00 }, { m: "Oct 26", plan: 82.00, act: null },
-    { m: "Nov 26", plan: 100.00, act: null }, { m: "Dec 26", plan: 100.00, act: null }
-  ]
+// Complete S-Curve Tracking Data for PRJ-001 through PRJ-008
+const fullMonthlyTrackingMap = {
+  "PRJ-001": {
+    "2026": [
+      { m: "Jan 26", plan: 3.50, act: 3.50 }, { m: "Feb 26", plan: 8.00, act: 7.00 },
+      { m: "Mar 26", plan: 13.00, act: 12.00 }, { m: "Apr 26", plan: 19.00, act: 18.00 },
+      { m: "May 26", plan: 26.00, act: 24.00 }, { m: "Jun 26", plan: 33.00, act: 31.00 },
+      { m: "Jul 26", plan: 41.00, act: 38.00 }, { m: "Aug 26", plan: 49.00, act: 46.00 },
+      { m: "Sep 26", plan: 58.62, act: 59.73 }, { m: "Oct 26", plan: 68.00, act: null },
+      { m: "Nov 26", plan: 78.00, act: null }, { m: "Dec 26", plan: 88.00, act: null }
+    ],
+    "2027": [
+      { m: "Jan 27", plan: 95.00, act: null }, { m: "Feb 27", plan: 100.00, act: null },
+      { m: "Mar 27", plan: 100.00, act: null }, { m: "Apr 27", plan: 100.00, act: null },
+      { m: "May 27", plan: 100.00, act: null }, { m: "Jun 27", plan: 100.00, act: null },
+      { m: "Jul 27", plan: 100.00, act: null }, { m: "Aug 27", plan: 100.00, act: null },
+      { m: "Sep 27", plan: 100.00, act: null }, { m: "Oct 27", plan: 100.00, act: null },
+      { m: "Nov 27", plan: 100.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
+    ]
+  },
+  "PRJ-002": {
+    "2026": [
+      { m: "Jan 26", plan: 0.00, act: 0.00 }, { m: "Feb 26", plan: 0.00, act: 0.00 },
+      { m: "Mar 26", plan: 5.00, act: 5.00 }, { m: "Apr 26", plan: 15.00, act: 14.00 },
+      { m: "May 26", plan: 28.00, act: 25.00 }, { m: "Jun 26", plan: 42.00, act: 38.00 },
+      { m: "Jul 26", plan: 55.00, act: 50.00 }, { m: "Aug 26", plan: 65.00, act: 60.00 },
+      { m: "Sep 26", plan: 70.00, act: 65.00 }, { m: "Oct 26", plan: 82.00, act: null },
+      { m: "Nov 26", plan: 100.00, act: null }, { m: "Dec 26", plan: 100.00, act: null }
+    ],
+    "2027": [
+      { m: "Jan 27", plan: 100.00, act: null }, { m: "Feb 27", plan: 100.00, act: null },
+      { m: "Mar 27", plan: 100.00, act: null }, { m: "Apr 27", plan: 100.00, act: null },
+      { m: "May 27", plan: 100.00, act: null }, { m: "Jun 27", plan: 100.00, act: null },
+      { m: "Jul 27", plan: 100.00, act: null }, { m: "Aug 27", plan: 100.00, act: null },
+      { m: "Sep 27", plan: 100.00, act: null }, { m: "Oct 27", plan: 100.00, act: null },
+      { m: "Nov 27", plan: 100.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
+    ]
+  },
+  "PRJ-003": {
+    "2026": [
+      { m: "Jan 26", plan: 8.00, act: 8.00 }, { m: "Feb 26", plan: 18.00, act: 16.00 },
+      { m: "Mar 26", plan: 30.00, act: 28.00 }, { m: "Apr 26", plan: 45.00, act: 40.00 },
+      { m: "May 26", plan: 60.00, act: 52.00 }, { m: "Jun 26", plan: 72.00, act: 62.00 },
+      { m: "Jul 26", plan: 82.00, act: 70.00 }, { m: "Aug 26", plan: 90.00, act: 76.00 },
+      { m: "Sep 26", plan: 95.00, act: 80.00 }, { m: "Oct 26", plan: 100.00, act: null },
+      { m: "Nov 26", plan: 100.00, act: null }, { m: "Dec 26", plan: 100.00, act: null }
+    ],
+    "2027": [
+      { m: "Jan 27", plan: 100.00, act: null }, { m: "Feb 27", plan: 100.00, act: null },
+      { m: "Mar 27", plan: 100.00, act: null }, { m: "Apr 27", plan: 100.00, act: null },
+      { m: "May 27", plan: 100.00, act: null }, { m: "Jun 27", plan: 100.00, act: null },
+      { m: "Jul 27", plan: 100.00, act: null }, { m: "Aug 27", plan: 100.00, act: null },
+      { m: "Sep 27", plan: 100.00, act: null }, { m: "Oct 27", plan: 100.00, act: null },
+      { m: "Nov 27", plan: 100.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
+    ]
+  },
+  "PRJ-004": {
+    "2026": [
+      { m: "Jan 26", plan: 0.00, act: 0.00 }, { m: "Feb 26", plan: 0.00, act: 0.00 },
+      { m: "Mar 26", plan: 0.00, act: 0.00 }, { m: "Apr 26", plan: 0.00, act: 0.00 },
+      { m: "May 26", plan: 8.00, act: 7.00 }, { m: "Jun 26", plan: 18.00, act: 15.00 },
+      { m: "Jul 26", plan: 28.00, act: 24.00 }, { m: "Aug 26", plan: 38.00, act: 34.00 },
+      { m: "Sep 26", plan: 50.00, act: 45.00 }, { m: "Oct 26", plan: 65.00, act: null },
+      { m: "Nov 26", plan: 85.00, act: null }, { m: "Dec 26", plan: 100.00, act: null }
+    ],
+    "2027": [
+      { m: "Jan 27", plan: 100.00, act: null }, { m: "Feb 27", plan: 100.00, act: null },
+      { m: "Mar 27", plan: 100.00, act: null }, { m: "Apr 27", plan: 100.00, act: null },
+      { m: "May 27", plan: 100.00, act: null }, { m: "Jun 27", plan: 100.00, act: null },
+      { m: "Jul 27", plan: 100.00, act: null }, { m: "Aug 27", plan: 100.00, act: null },
+      { m: "Sep 27", plan: 100.00, act: null }, { m: "Oct 27", plan: 100.00, act: null },
+      { m: "Nov 27", plan: 100.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
+    ]
+  }
 };
 
-let baselineHistory = [
-  { id: "1", prjId: "PRJ-001", prjName: "Infrastructure P1", code: "SCP-01", cat: "PRELIMINARIES AND GENERAL ITEMS", trade: "Site Office / Facilities", cadence: "Biweekly", month: "2026-10", segment: "Week 2 (8th - 14th)", plan: 58.62, act: 59.73, var: "+1.11%", remarks: "Complete Phase 3 DB cutover", app: "YES" },
-  { id: "2", prjId: "PRJ-002", prjName: "Infrastructure P2A", code: "SCP-02", cat: "JTU5 CH400 - C200", trade: "Site Clearing & Earthworks", cadence: "Biweekly", month: "2026-10", segment: "Week 2 (8th - 14th)", plan: 4.00, act: 3.00, var: "-1.00%", remarks: "Pending authority approval to start", app: "YES" },
-  { id: "3", prjId: "PRJ-001", prjName: "Infrastructure P1", code: "SCP-03", cat: "JTU5 CH200 - C0", trade: "Pipe Laying & Testing", cadence: "Biweekly", month: "2026-10", segment: "Week 2 (8th - 14th)", plan: 52.00, act: 48.00, var: "-4.00%", remarks: "Awaiting pipe joint testing inspection", app: "NO" }
-];
+let currentMetadataList = [];
+let currentHistoryList = [];
 
-// Helper: Round up to nearest thousand without cents
-function formatNearestThousand(val) {
-  var rounded = Math.ceil(Number(val || 0) / 1000) * 1000;
-  return "RM " + rounded.toLocaleString('en-MY');
+// Formatting helper: M / k representation
+function formatShortMillions(val) {
+  var num = Number(val || 0);
+  if (Math.abs(num) >= 1000000) {
+    var m = num / 1000000;
+    return "RM " + (m % 1 === 0 ? m.toFixed(1) : m.toFixed(3).replace(/\.?0+$/, '')) + "M";
+  } else if (Math.abs(num) >= 1000) {
+    return "RM " + (num / 1000).toFixed(0) + "k";
+  }
+  return "RM " + num.toLocaleString('en-MY');
 }
 
 function formatExactRM(val) {
@@ -731,7 +803,7 @@ function switchPage(pageId) {
 
   if (pageId === 'page2') { loadPage2Data(); loadMonthlyTrackingGraph(); }
   if (pageId === 'page3') loadPage3Data();
-  if (pageId === 'page4') loadFilteredHistory();
+  if (pageId === 'page4') fetchProjectMetadataAndHistory();
 }
 
 function loadPage2Data() {
@@ -773,10 +845,13 @@ function renderOverallTable(data) {
 
 function loadMonthlyTrackingGraph() {
   const prjId = document.getElementById('chartProjectSelect').value;
+  const year = document.getElementById('chartYearSelect').value;
   const container = document.getElementById('scurveContainer');
-  const data = sampleMonthlyMap[prjId] || sampleMonthlyMap["PRJ-001"];
 
-  container.innerHTML = data.map(d => {
+  var projectMap = fullMonthlyTrackingMap[prjId] || fullMonthlyTrackingMap["PRJ-001"];
+  var monthData = projectMap[year] || projectMap["2026"];
+
+  container.innerHTML = monthData.map(d => {
     const planH = (d.plan / 100) * 100;
     const actH = d.act !== null ? (d.act / 100) * 100 : 0;
     return `
@@ -798,34 +873,52 @@ function loadMonthlyTrackingGraph() {
 }
 
 function loadPage3Data() {
-  const tbody = document.getElementById('approvalTableBody');
-  const unapproved = baselineHistory.filter(h => h.app === 'NO');
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL + "?action=getPendingApprovals")
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === 'success') renderApprovalTable(res.data);
+      });
+  } else {
+    renderApprovalTable([]);
+  }
+}
 
-  if (unapproved.length === 0) {
+function renderApprovalTable(data) {
+  const tbody = document.getElementById('approvalTableBody');
+
+  if (!data || data.length === 0) {
     tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted);">No pending progress reports requiring approval.</td></tr>';
     return;
   }
 
-  tbody.innerHTML = unapproved.map((h, idx) => `
+  tbody.innerHTML = data.map((h, idx) => `
     <tr>
-      <td style="font-weight: 600;">${h.prjName}</td>
-      <td>${h.cat}<br><small style="color: var(--muted);">${h.trade}</small></td>
-      <td>${h.segment}</td>
-      <td>${parseFloat(h.plan).toFixed(2)}%</td>
-      <td><strong>${parseFloat(h.act).toFixed(2)}%</strong></td>
-      <td style="color: var(--red); font-weight: 600;">${h.var}</td>
-      <td style="max-width: 220px;">${h.remarks}</td>
-      <td><button class="btn-action btn-approve" onclick="approveRecord(${idx})">Approve</button></td>
+      <td style="font-weight: 600;">${h['Project Name']}</td>
+      <td>${h['Scope Category']}<br><small style="color: var(--muted);">${h['Trade']}</small></td>
+      <td>${h['Reporting Segment Period']}</td>
+      <td>${parseFloat(h['Planned']).toFixed(2)}%</td>
+      <td><strong>${parseFloat(h['Actual']).toFixed(2)}%</strong></td>
+      <td style="color: var(--red); font-weight: 600;">${h['Variation']}</td>
+      <td style="max-width: 220px;">${h['Remarks']}</td>
+      <td><button class="btn-action btn-approve" onclick="approveRecord('${h.sheetName}', ${h.rowNumber})">Approve</button></td>
     </tr>
   `).join('');
 }
 
-function approveRecord(idx) {
-  const unapproved = baselineHistory.filter(h => h.app === 'NO');
-  if (unapproved[idx]) {
-    unapproved[idx].app = 'YES';
-    alert('Submission approved! Status set to YES.');
-    loadPage3Data();
+function approveRecord(sheetName, rowNumber) {
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: "approveProgress", sheetName: sheetName, rowNumber: rowNumber })
+    }).then(() => {
+      alert('Submission approved! Approval column updated to YES.');
+      loadPage3Data();
+    });
+  } else {
+    alert('Record approved locally.');
   }
 }
 
@@ -867,34 +960,117 @@ function handleCadenceChangeProgress() {
   }
 }
 
-function onProjectChangeProgress() {
-  loadFilteredHistory();
+function fetchProjectMetadataAndHistory() {
+  const prjId = document.getElementById('pPrj').value;
+
+  if (GOOGLE_SCRIPT_URL) {
+    // 1. Fetch Metadata live
+    fetch(GOOGLE_SCRIPT_URL + "?action=getMetadata&projectId=" + prjId)
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === 'success' && res.data.length > 0) {
+          currentMetadataList = res.data;
+          populateMetadataDropdowns(res.data);
+        } else {
+          populateDefaultMetadataDropdowns(prjId);
+        }
+      }).catch(() => populateDefaultMetadataDropdowns(prjId));
+
+    // 2. Fetch History live
+    fetch(GOOGLE_SCRIPT_URL + "?action=getProjectHistory&projectId=" + prjId)
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === 'success') {
+          currentHistoryList = res.data;
+          renderHistoryTable(res.data);
+          populateCascadingHistoryFilters(res.data);
+        }
+      });
+  } else {
+    populateDefaultMetadataDropdowns(prjId);
+    renderHistoryTable([]);
+  }
 }
 
-function onProjectChangeSetup() {}
+function populateMetadataDropdowns(data) {
+  const codeSel = document.getElementById('pScopeCode');
+  const catSel = document.getElementById('pScopeCat');
+  const tradeSel = document.getElementById('pTrade');
 
-function loadFilteredHistory() {
-  const selectedPrj = document.getElementById('filterPrj').value;
+  const codes = [...new Set(data.map(d => d['Scope Code']).filter(Boolean))];
+  const cats = [...new Set(data.map(d => d['Scope Category']).filter(Boolean))];
+  const trades = [...new Set(data.map(d => d['Trade']).filter(Boolean))];
+
+  codeSel.innerHTML = codes.map(c => `<option value="${c}">${c}</option>`).join('');
+  catSel.innerHTML = cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  tradeSel.innerHTML = trades.map(t => `<option value="${t}">${t}</option>`).join('');
+}
+
+function populateDefaultMetadataDropdowns(prjId) {
+  const codeSel = document.getElementById('pScopeCode');
+  const catSel = document.getElementById('pScopeCat');
+  const tradeSel = document.getElementById('pTrade');
+
+  codeSel.innerHTML = `<option value="SCP-01">SCP-01</option><option value="SCP-02">SCP-02</option>`;
+  catSel.innerHTML = `<option value="PRELIMINARIES AND GENERAL ITEMS">PRELIMINARIES AND GENERAL ITEMS</option><option value="JTU5 CH400 - C200">JTU5 CH400 - C200</option>`;
+  tradeSel.innerHTML = `<option value="Site Office / Facilities">Site Office / Facilities</option><option value="Site Clearing & Earthworks">Site Clearing & Earthworks</option>`;
+}
+
+function onScopeCodeSelectChange() {
+  const selCode = document.getElementById('pScopeCode').value;
+  const match = currentMetadataList.find(d => d['Scope Code'] === selCode);
+  if (match) {
+    if (match['Scope Category']) document.getElementById('pScopeCat').value = match['Scope Category'];
+    if (match['Trade']) document.getElementById('pTrade').value = match['Trade'];
+  }
+}
+
+function fetchProjectHistory() {
+  fetchProjectMetadataAndHistory();
+}
+
+function populateCascadingHistoryFilters(data) {
+  const catFilter = document.getElementById('filterCat');
+  const tradeFilter = document.getElementById('filterTrade');
+
+  const cats = [...new Set(data.map(d => d['Scope Category']).filter(Boolean))];
+  const trades = [...new Set(data.map(d => d['Trade']).filter(Boolean))];
+
+  catFilter.innerHTML = '<option value="ALL">All Categories</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
+  tradeFilter.innerHTML = '<option value="ALL">All Trades</option>' + trades.map(t => `<option value="${t}">${t}</option>`).join('');
+}
+
+function applyHistoryFilters() {
+  const selCat = document.getElementById('filterCat').value;
+  const selTrade = document.getElementById('filterTrade').value;
+
+  let filtered = currentHistoryList;
+  if (selCat !== 'ALL') filtered = filtered.filter(d => d['Scope Category'] === selCat);
+  if (selTrade !== 'ALL') filtered = filtered.filter(d => d['Trade'] === selTrade);
+
+  renderHistoryTable(filtered);
+}
+
+function renderHistoryTable(data) {
   const tbody = document.getElementById('historyTableBody');
-  const filtered = baselineHistory.filter(h => h.prjId === selectedPrj);
 
-  if (filtered.length === 0) {
+  if (!data || data.length === 0) {
     tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--muted);">No history records found for selected project.</td></tr>';
     return;
   }
 
-  tbody.innerHTML = filtered.map(h => `
+  tbody.innerHTML = data.map(h => `
     <tr>
-      <td style="font-weight: 600; color: var(--blue);">${h.id}</td>
-      <td style="font-weight: 600;">${h.prjName}</td>
-      <td>${h.code}<br><small style="color: var(--muted);">${h.cat}</small></td>
-      <td>${h.trade}</td>
-      <td>${h.cadence} (${h.month} ${h.segment})</td>
-      <td>${parseFloat(h.plan).toFixed(2)}%</td>
-      <td><strong>${parseFloat(h.act).toFixed(2)}%</strong></td>
-      <td style="color: ${parseFloat(h.var) >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${h.var}</td>
-      <td style="max-width: 200px;">${h.remarks}</td>
-      <td><span class="badge ${h.app === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${h.app}</span></td>
+      <td style="font-weight: 600; color: var(--blue);">${h['Entry ID']}</td>
+      <td style="font-weight: 600;">${h['Project Name']}</td>
+      <td>${h['Scope Code']}<br><small style="color: var(--muted);">${h['Scope Category']}</small></td>
+      <td>${h['Trade']}</td>
+      <td>${h['Reporting Period']} (${h['Reporting Month']} ${h['Reporting Segment Period']})</td>
+      <td>${parseFloat(h['Planned'] || 0).toFixed(2)}%</td>
+      <td><strong>${parseFloat(h['Actual'] || 0).toFixed(2)}%</strong></td>
+      <td style="color: ${parseFloat(h['Variation'] || 0) >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${h['Variation']}</td>
+      <td style="max-width: 200px;">${h['Remarks']}</td>
+      <td><span class="badge ${h['Approval'] === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${h['Approval']}</span></td>
     </tr>
   `).join('');
 }
@@ -907,8 +1083,6 @@ function handleProgressSubmit(e) {
 
   const plan = parseFloat(document.getElementById('pPlanned').value);
   const act = parseFloat(document.getElementById('pActual').value);
-  const variance = (act - plan).toFixed(2);
-  const nextNum = String(baselineHistory.length + 1); // Clean Sequential Entry ID
 
   const payload = {
     action: "submitProgress",
@@ -917,31 +1091,14 @@ function handleProgressSubmit(e) {
     scopeCode: document.getElementById('pScopeCode').value,
     scopeCategory: document.getElementById('pScopeCat').value,
     trade: document.getElementById('pTrade').value,
-    reportingCadence: document.getElementById('pCadence').value,
+    reportingPeriod: document.getElementById('pCadence').value,
     reportingMonth: document.getElementById('pMonth').value,
-    segmentPeriod: document.getElementById('pSegment').value,
+    reportingSegmentPeriod: document.getElementById('pSegment').value || 'By Month',
     planned: plan,
     actual: act,
     overallStatus: document.getElementById('pOverallStatus').value,
     remarks: document.getElementById('pRemarks').value
   };
-
-  baselineHistory.unshift({
-    id: nextNum,
-    prjId: prjId,
-    prjName: prjName,
-    code: payload.scopeCode,
-    cat: payload.scopeCategory,
-    trade: payload.trade,
-    cadence: payload.reportingCadence,
-    month: payload.reportingMonth,
-    segment: payload.segmentPeriod,
-    plan: plan,
-    act: act,
-    var: (variance >= 0 ? '+' : '') + variance + '%',
-    remarks: payload.remarks,
-    app: 'NO'
-  });
 
   if (GOOGLE_SCRIPT_URL) {
     fetch(GOOGLE_SCRIPT_URL, {
@@ -949,12 +1106,14 @@ function handleProgressSubmit(e) {
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
+    }).then(() => {
+      alert('Progress update submitted successfully! Default Approval set to NO.');
+      document.getElementById('formProgressUpdate').reset();
+      fetchProjectMetadataAndHistory();
     });
+  } else {
+    alert('Progress update recorded locally.');
   }
-
-  alert('Progress report saved with Entry ID: ' + nextNum + '. Approval set to NO.');
-  document.getElementById('formProgressUpdate').reset();
-  loadFilteredHistory();
 }
 
 function handleMetadataSubmit(e) {
@@ -980,14 +1139,17 @@ function handleMetadataSubmit(e) {
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
+    }).then(() => {
+      alert('Schedule details saved to Metadata ' + prjId + '!');
+      document.getElementById('formScheduleSetup').reset();
+      fetchProjectMetadataAndHistory();
     });
+  } else {
+    alert('Schedule setup saved locally.');
   }
-
-  alert('Schedule details saved to Metadata ' + prjId + '!');
-  document.getElementById('formScheduleSetup').reset();
 }
 
-// Initializing
+// Initialize
 loadPage2Data();
 </script>
 
