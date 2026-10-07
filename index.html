@@ -328,7 +328,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </div>
       <div class="hero-stat">
         <div class="label">Total Contract Cost</div>
-        <div class="value" id="kpiCost">RM 135,914,000</div>
+        <div class="value" id="kpiCost">RM 135,915,000</div>
         <div class="note">Contracted Scope Sum</div>
       </div>
       <div class="hero-stat">
@@ -444,9 +444,10 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
         </select>
       </div>
 
-      <!-- RED INSTRUCTION BOX -->
+      <!-- SIMPLIFIED RED INSTRUCTION BOX -->
       <div class="red-instruction-box">
-        <strong>Important Instructions:</strong> Project Name, Scope Code, Scope Category, Trade selection will be based off current data. If there is new information in any of this, use the <em>Project Details and Schedule Setup</em> dropdown in select entry mode. Planned and actual progress must refer to historic data first before entering. Make sure planned progress is in ascending order with previous data and actual progress can be same or more than latest data; <strong>IT IS CUMULATIVE progress.</strong>
+        <strong>Important Instructions:</strong> Project Name, Scope Code, Scope Category, and Trade are pre-loaded from existing records. To add new items, use <em>Project Details and Schedule Setup</em> mode.<br>
+        Check history before entering metrics. Planned progress must increase over time, and actual progress must be equal to or higher than the previous record (<strong>CUMULATIVE progress</strong>).
       </div>
 
       <!-- FORM A: PROJECT PROGRESS UPDATE -->
@@ -598,7 +599,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </form>
     </section>
 
-    <!-- LIVE HISTORY RECORDS SECTION WITH CASCADING FILTERS -->
+    <!-- LIVE HISTORY RECORDS SECTION WITH FILTERS -->
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
       <div class="eyebrow">LIVE SHEET HISTORY RECORDS</div>
       <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -801,7 +802,7 @@ function loadPage3Data() {
   const unapproved = baselineHistory.filter(h => h.app === 'NO');
 
   if (unapproved.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted);">No pending progress submissions requiring approval.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted);">No pending progress reports requiring approval.</td></tr>';
     return;
   }
 
