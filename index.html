@@ -22,6 +22,7 @@
   --line: #d8dee8;
   --soft: #f7f8fc;
   --softb: #f2f3ff;
+  --softc: #edfbff;
   --max: 1480px;
 }
 
@@ -71,7 +72,7 @@ button, input, select, textarea { font: inherit; }
   letter-spacing: .08em;
 }
 
-.nav-links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 .btn-nav {
   background: var(--soft);
   border: 1px solid var(--line);
@@ -231,7 +232,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 .badge-planned { background: #f1f3f8; color: var(--gray); }
 .badge-delayed { background: #ffebeb; color: var(--red); }
 
-/* Forms & Warning */
+/* Forms & Cards */
 .entry-card {
   background: var(--softb);
   border: 1px solid #c8d2ff;
@@ -294,7 +295,30 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 .btn-verify { background: var(--amber); color: #111; }
 .btn-approve { background: var(--green); }
 
-/* Mobile Responsiveness Fixes */
+/* Scorecard Tab Selector Buttons */
+.tab-switcher {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.btn-tab {
+  padding: 10px 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid var(--line);
+  background: var(--soft);
+  color: var(--ink);
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn-tab.active {
+  background: var(--blue);
+  color: white;
+  border-color: var(--blue);
+}
+
 @media (max-width: 768px) {
   .page { padding: 16px 18px 48px; }
   .chart-header { flex-direction: column; align-items: flex-start; }
@@ -315,6 +339,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
     <div class="nav-links">
       <button class="btn-nav" id="navDashboard" onclick="switchPage('page2')">Higher Management View</button>
       <button class="btn-nav" id="navVerification" onclick="switchPage('page3Consultant')">Consultant Verification</button>
+      <button class="btn-nav" id="navScorecard" onclick="switchPage('pageScorecard')">Scorecard Portal</button>
       <button class="btn-nav" id="navApproval" onclick="switchPage('page3Authority')">PDD Approval</button>
       <button class="btn-nav" id="navInput" onclick="switchPage('page4')">Contractor / Developer Portal</button>
       <button class="btn-nav btn-logout" onclick="logout()">Log Out</button>
@@ -323,7 +348,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 
   <div class="rule" id="appRule" style="display: none;"></div>
 
-  <!-- PAGE 1: LOGIN -->
+  <!-- PAGE 1: LOGIN (SWITCHED POSITIONS: CONSULTANT VIEW BEFORE PDD AUTHORITY VIEW) -->
   <div id="page1" class="app-page active">
     <div class="login-container">
       <img src="MRANTI 30Y Icon.png" class="login-logo" alt="MRANTI Icon" onerror="this.src='https://cdn.prod.website-files.com/6719e3902a71ea8154ba371d/6996a2c470a01e3f32ffa080_M30.png'">
@@ -399,7 +424,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </table>
     </div>
 
-    <!-- Project Monthly Tracking Graph Section with Fixed Canvas Filters -->
+    <!-- Project Monthly Tracking Graph Section -->
     <div class="chart-box">
       <div class="chart-header">
         <div>
@@ -436,9 +461,53 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
         <span><strong style="color: var(--blue);">■</strong> Cumulative Actual %</span>
       </div>
     </div>
+
+    <!-- NEW SECTION: CONSULTANT & CONTRACTOR SCORECARD DATA (HIGHER MANAGEMENT VIEW) -->
+    <div style="margin-top: 36px;">
+      <div class="eyebrow">PORTFOLIO EVALUATION</div>
+      <h3 style="margin: 4px 0 16px; font-size: 18px; font-weight: 600;">Consultant & Contractor Performance Scorecard Summary</h3>
+
+      <div class="table-wrap" style="margin-bottom: 24px;">
+        <div style="padding: 10px 14px; background: var(--softb); font-size: 11px; font-weight: 700; color: var(--blue);">CONSULTANT SCORECARD DATA</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Project Name</th>
+              <th>Progress</th>
+              <th>Quality</th>
+              <th>HSE</th>
+              <th>Reporting Compliance</th>
+              <th>Responsiveness</th>
+              <th>Recovery Actions</th>
+              <th>Average Score</th>
+            </tr>
+          </thead>
+          <tbody id="mgmtConsultantScorecardBody"></tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <div style="padding: 10px 14px; background: var(--softb); font-size: 11px; font-weight: 700; color: var(--blue);">CONTRACTOR SCORECARD DATA</div>
+        <table>
+          <thead>
+            <tr>
+              <th>Project Name</th>
+              <th>Progress</th>
+              <th>Quality</th>
+              <th>HSE</th>
+              <th>Reporting Compliance</th>
+              <th>Responsiveness</th>
+              <th>Recovery Actions</th>
+              <th>Average Score</th>
+            </tr>
+          </thead>
+          <tbody id="mgmtContractorScorecardBody"></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 
-  <!-- PAGE 3A: CONSULTANT PROGRESS REPORT VERIFICATION PAGE -->
+  <!-- CONSULTANT PROGRESS REPORT VERIFICATION PAGE -->
   <div id="page3Consultant" class="app-page">
     <div class="eyebrow">PAGE 3 · CONSULTANT PORTAL</div>
     <h2 style="margin: 6px 0 8px; font-size: 22px; font-weight: 600;">Consultant Progress Report Verification Page</h2>
@@ -483,7 +552,103 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
     </div>
   </div>
 
-  <!-- PAGE 3B: PDD AUTHORITY PROGRESS APPROVAL PORTAL -->
+  <!-- NEW PAGE: CONSULTANT & CONTRACTOR SCORECARD PORTAL (PDD AUTHORITY EXCLUSIVE) -->
+  <div id="pageScorecard" class="app-page">
+    <div class="eyebrow">PDD AUTHORITY PORTAL</div>
+    <h2 style="margin: 6px 0 8px; font-size: 22px; font-weight: 600;">Consultant & Contractor Scorecard</h2>
+    <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px;">
+      Provide honest feedback scores from 1 to 10 for each category. Ratings are confidential and strictly invisible to Consultants and Contractors.
+    </p>
+
+    <!-- Scorecard Type Switcher Buttons -->
+    <div class="tab-switcher">
+      <button class="btn-tab active" id="btnScorecardConsultant" onclick="setScorecardType('Consultant')">Consultant Scorecard</button>
+      <button class="btn-tab" id="btnScorecardContractor" onclick="setScorecardType('Contractor')">Contractor Scorecard</button>
+    </div>
+
+    <section class="entry-card">
+      <h3 style="margin: 0 0 16px; font-size: 15px; font-weight: 600;" id="scorecardFormTitle">Input Ratings: Consultant Scorecard</h3>
+      
+      <form id="formScorecard" onsubmit="handleScorecardSubmit(event)">
+        <div class="form-grid">
+          <div class="form-group" style="grid-column: 1 / -1; max-width: 360px;">
+            <label for="scorePrjSelect">Select Target Project (1 of 8)</label>
+            <select id="scorePrjSelect" required onchange="loadExistingProjectScoreData()">
+              <option value="Infrastructure P1">PRJ-001: Infrastructure P1</option>
+              <option value="Infrastructure P2A">PRJ-002: Infrastructure P2A</option>
+              <option value="Slope Remedial">PRJ-003: Slope Remedial</option>
+              <option value="Area 57">PRJ-004: Area 57</option>
+              <option value="AI Customer Support Bot">PRJ-005: AI Customer Support Bot</option>
+              <option value="Data Lakehouse & BI Hub">PRJ-006: Data Lakehouse & BI Hub</option>
+              <option value="Supply Chain Automation">PRJ-007: Supply Chain Automation</option>
+              <option value="Cyber Security Zero-Trust">PRJ-008: Cyber Security Zero-Trust</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="scoreProgress">Progress (1 - 10)</label>
+            <input type="number" id="scoreProgress" min="1" max="10" step="0.1" value="0" required oninput="calcAverageScorecard()">
+          </div>
+
+          <div class="form-group">
+            <label for="scoreQuality">Quality (1 - 10)</label>
+            <input type="number" id="scoreQuality" min="1" max="10" step="0.1" value="0" required oninput="calcAverageScorecard()">
+          </div>
+
+          <div class="form-group">
+            <label for="scoreHSE">HSE (1 - 10)</label>
+            <input type="number" id="scoreHSE" min="1" max="10" step="0.1" value="0" required oninput="calcAverageScorecard()">
+          </div>
+
+          <div class="form-group">
+            <label for="scoreReporting">Reporting Compliance (1 - 10)</label>
+            <input type="number" id="scoreReporting" min="1" max="10" step="0.1" value="0" required oninput="calcAverageScorecard()">
+          </div>
+
+          <div class="form-group">
+            <label for="scoreResponsiveness">Responsiveness (1 - 10)</label>
+            <input type="number" id="scoreResponsiveness" min="1" max="10" step="0.1" value="0" required oninput="calcAverageScorecard()">
+          </div>
+
+          <div class="form-group">
+            <label for="scoreRecovery">Recovery Actions (1 - 10)</label>
+            <input type="number" id="scoreRecovery" min="1" max="10" step="0.1" value="0" required oninput="calcAverageScorecard()">
+          </div>
+
+          <div class="form-group" style="grid-column: 1 / -1; max-width: 240px;">
+            <label for="scoreAverage">Average Score (Read-Only)</label>
+            <input type="text" id="scoreAverage" value="0.00" readonly style="background: var(--softb); font-weight: 700; color: var(--blue);">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 18px;">
+          <button type="submit" class="btn-action">Submit Scorecard Feedback</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- LIVE READ-ONLY SCORECARD TABLE FOR PDD AUTHORITY -->
+    <div class="eyebrow" id="scorecardTableLabel">CURRENT CONSULTANT SCORECARD DATA</div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Project Name</th>
+            <th>Progress</th>
+            <th>Quality</th>
+            <th>HSE</th>
+            <th>Reporting Compliance</th>
+            <th>Responsiveness</th>
+            <th>Recovery Actions</th>
+            <th>Average Score</th>
+          </tr>
+        </thead>
+        <tbody id="pddAuthorityScorecardTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PDD AUTHORITY PROGRESS APPROVAL PORTAL -->
   <div id="page3Authority" class="app-page">
     <div class="eyebrow">PAGE 3 · PDD AUTHORITY PORTAL</div>
     <h2 style="margin: 6px 0 8px; font-size: 22px; font-weight: 600;">PDD Authority Progress Approval Portal</h2>
@@ -573,16 +738,15 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             </select>
           </div>
 
+          <!-- REMOVED SEPTEMBER 2026 AS REQUESTED -->
           <div class="form-group">
             <label for="pMonth">Reporting Month</label>
             <select id="pMonth">
-              <option value="2026-09">September 2026</option>
               <option value="2026-10" selected>October 2026</option>
               <option value="2026-11">November 2026</option>
             </select>
           </div>
 
-          <!-- UPDATED BIWEEKLY CADENCE CONTAINER (WEEKS 2 & 4 ONLY) -->
           <div class="form-group" id="segmentContainer">
             <label for="pSegment">Segment Period</label>
             <select id="pSegment">
@@ -591,14 +755,15 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             </select>
           </div>
 
+          <!-- UPDATED PLACEHOLDERS WITH (refer past data) -->
           <div class="form-group">
             <label for="pPlanned">Planned Progress (%)</label>
-            <input type="number" id="pPlanned" step="0.01" min="0" max="100" placeholder="e.g. 58.62" required>
+            <input type="number" id="pPlanned" step="0.01" min="0" max="100" placeholder="e.g. 58.62 (refer past data)" required>
           </div>
 
           <div class="form-group">
             <label for="pActual">Actual Progress (%)</label>
-            <input type="number" id="pActual" step="0.01" min="0" max="100" placeholder="e.g. 59.73" required>
+            <input type="number" id="pActual" step="0.01" min="0" max="100" placeholder="e.g. 59.73 (refer past data)" required>
           </div>
 
           <div class="form-group">
@@ -700,7 +865,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </table>
     </div>
 
-    <!-- LIVE HISTORY RECORDS SECTION (SHOWS BOTH VERIFICATION & APPROVAL) -->
+    <!-- LIVE HISTORY RECORDS SECTION -->
     <div class="eyebrow">LIVE SHEET HISTORY RECORDS (REAL-TIME FILTERED)</div>
     <div class="table-wrap">
       <table>
@@ -730,9 +895,8 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 
 <script>
 // Paste Google Apps Script Web App URL below:
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPNT3ap01ahIxk4RkzIjqdJxN52TAskfpGuYWlHXG7VVHj6brMG4v_jmk5qHaJpIPfCA/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7qCt9Fy_Yk8lM8ejhOJPbeApaWFegtMzbNlFD1N3rHL4b0GyxKGCvAqUgAc45oM4x/exec";
 
-// Exact Financial Baseline from Project Details Overall Sheet
 let baselineOverallData = [
   { id: "PRJ-001", name: "Infrastructure P1", cat: "CAPEX", budget: 75000000.00, cost: 68500000.00, paid: 38000000.00, claim: 4200000.00, balance: 6500000.00, status: "In Progress", health: "Ahead" },
   { id: "PRJ-002", name: "Infrastructure P2A", cat: "CAPEX", budget: 76000000.00, cost: 47377700.00, paid: 0.00, claim: 0.00, balance: 28622300.00, status: "In Progress", health: "On Track" },
@@ -744,7 +908,6 @@ let baselineOverallData = [
   { id: "PRJ-008", name: "Cyber Security Zero-Trust", cat: "Government Grant", budget: 0.00, cost: 0.00, paid: 0.00, claim: 0.00, balance: 0.00, status: "Planning", health: "Planned" }
 ];
 
-// Complete S-Curve Tracking Data
 const fullMonthlyTrackingMap = {
   "PRJ-001": {
     "2026": [
@@ -895,6 +1058,8 @@ const fullMonthlyTrackingMap = {
 let currentMetadataList = [];
 let currentHistoryList = [];
 let pendingVerificationsList = [];
+let currentScorecardType = "Consultant"; // "Consultant" or "Contractor"
+let activeScorecardData = [];
 
 function parsePercentageVal(val) {
   if (val === null || val === undefined || val === '') return 0.0;
@@ -942,28 +1107,32 @@ function loginAs(role) {
   document.getElementById('appHeader').style.display = 'flex';
   document.getElementById('appRule').style.display = 'block';
 
-  // Navigation visibility matrix
+  // Navigation Visibility Matrix
   if (role === 'HigherManagement') {
     document.getElementById('navDashboard').style.display = 'inline-block';
     document.getElementById('navVerification').style.display = 'none';
+    document.getElementById('navScorecard').style.display = 'none';
     document.getElementById('navApproval').style.display = 'none';
-    document.getElementById('navInput').style.display = 'none';
+    document.getElementById('navInput').style.display = 'none'; // Higher Mgmt cannot view contractor input
     switchPage('page2');
   } else if (role === 'Consultant') {
     document.getElementById('navDashboard').style.display = 'none'; // Consultant CANNOT view dashboard
     document.getElementById('navVerification').style.display = 'inline-block';
+    document.getElementById('navScorecard').style.display = 'none'; // Consultant CANNOT view scorecard
     document.getElementById('navApproval').style.display = 'none';
     document.getElementById('navInput').style.display = 'inline-block';
     switchPage('page3Consultant');
   } else if (role === 'PDDAuthority') {
     document.getElementById('navDashboard').style.display = 'inline-block';
     document.getElementById('navVerification').style.display = 'none';
+    document.getElementById('navScorecard').style.display = 'inline-block'; // PDD Authority exclusive
     document.getElementById('navApproval').style.display = 'inline-block';
-    document.getElementById('navInput').style.display = 'inline-block';
+    document.getElementById('navInput').style.display = 'none'; // PDD Authority CANNOT view contractor portal
     switchPage('page3Authority');
   } else if (role === 'Contractor') {
     document.getElementById('navDashboard').style.display = 'none';
     document.getElementById('navVerification').style.display = 'none';
+    document.getElementById('navScorecard').style.display = 'none'; // Contractor CANNOT view scorecard
     document.getElementById('navApproval').style.display = 'none';
     document.getElementById('navInput').style.display = 'inline-block';
     switchPage('page4');
@@ -983,11 +1152,13 @@ function switchPage(pageId) {
   document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
   if (pageId === 'page2') document.getElementById('navDashboard').classList.add('active');
   if (pageId === 'page3Consultant') document.getElementById('navVerification').classList.add('active');
+  if (pageId === 'pageScorecard') document.getElementById('navScorecard').classList.add('active');
   if (pageId === 'page3Authority') document.getElementById('navApproval').classList.add('active');
   if (pageId === 'page4') document.getElementById('navInput').classList.add('active');
 
-  if (pageId === 'page2') { loadPage2Data(); loadMonthlyTrackingGraph(); }
+  if (pageId === 'page2') { loadPage2Data(); loadMonthlyTrackingGraph(); loadHigherMgmtScorecards(); }
   if (pageId === 'page3Consultant') loadConsultantPageData();
+  if (pageId === 'pageScorecard') loadScorecardPageData();
   if (pageId === 'page3Authority') loadAuthorityPageData();
   if (pageId === 'page4') fetchProjectMetadataAndHistory();
 }
@@ -1056,6 +1227,134 @@ function loadMonthlyTrackingGraph() {
       </div>
     `;
   }).join('');
+}
+
+// SCORECARD PORTAL LOGIC (PDD AUTHORITY & HIGHER MANAGEMENT)
+function setScorecardType(type) {
+  currentScorecardType = type;
+  document.getElementById('btnScorecardConsultant').classList.toggle('active', type === 'Consultant');
+  document.getElementById('btnScorecardContractor').classList.toggle('active', type === 'Contractor');
+  
+  document.getElementById('scorecardFormTitle').innerText = "Input Ratings: " + type + " Scorecard";
+  document.getElementById('scorecardTableLabel').innerText = "CURRENT " + type.toUpperCase() + " SCORECARD DATA";
+  
+  loadScorecardPageData();
+}
+
+function calcAverageScorecard() {
+  const p = parseFloat(document.getElementById('scoreProgress').value) || 0;
+  const q = parseFloat(document.getElementById('scoreQuality').value) || 0;
+  const h = parseFloat(document.getElementById('scoreHSE').value) || 0;
+  const r = parseFloat(document.getElementById('scoreReporting').value) || 0;
+  const res = parseFloat(document.getElementById('scoreResponsiveness').value) || 0;
+  const rec = parseFloat(document.getElementById('scoreRecovery').value) || 0;
+
+  const avg = (p + q + h + r + res + rec) / 6.0;
+  document.getElementById('scoreAverage').value = avg.toFixed(2);
+}
+
+function loadScorecardPageData() {
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL + "?action=getScorecardData&type=" + currentScorecardType)
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === 'success') {
+          activeScorecardData = res.data;
+          renderScorecardTable('pddAuthorityScorecardTableBody', res.data);
+          loadExistingProjectScoreData();
+        }
+      });
+  } else {
+    renderScorecardTable('pddAuthorityScorecardTableBody', []);
+  }
+}
+
+function loadExistingProjectScoreData() {
+  const selectedPrj = document.getElementById('scorePrjSelect').value;
+  const match = activeScorecardData.find(d => String(d['Project Name']).trim().toLowerCase() === selectedPrj.trim().toLowerCase());
+
+  if (match) {
+    document.getElementById('scoreProgress').value = match['Progress'] || 0;
+    document.getElementById('scoreQuality').value = match['Quality'] || 0;
+    document.getElementById('scoreHSE').value = match['HSE'] || 0;
+    document.getElementById('scoreReporting').value = match['Reporting Compliance'] || 0;
+    document.getElementById('scoreResponsiveness').value = match['Responsiveness'] || 0;
+    document.getElementById('scoreRecovery').value = match['Recovery Actions'] || 0;
+  } else {
+    document.getElementById('scoreProgress').value = 0;
+    document.getElementById('scoreQuality').value = 0;
+    document.getElementById('scoreHSE').value = 0;
+    document.getElementById('scoreReporting').value = 0;
+    document.getElementById('scoreResponsiveness').value = 0;
+    document.getElementById('scoreRecovery').value = 0;
+  }
+  calcAverageScorecard();
+}
+
+function renderScorecardTable(targetTbodyId, data) {
+  const tbody = document.getElementById(targetTbodyId);
+  
+  if (!data || data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted);">No scorecard records found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = data.map(d => `
+    <tr>
+      <td style="font-weight: 600;">${d['Project Name']}</td>
+      <td>${Number(d['Progress'] || 0).toFixed(1)}</td>
+      <td>${Number(d['Quality'] || 0).toFixed(1)}</td>
+      <td>${Number(d['HSE'] || 0).toFixed(1)}</td>
+      <td>${Number(d['Reporting Compliance'] || 0).toFixed(1)}</td>
+      <td>${Number(d['Responsiveness'] || 0).toFixed(1)}</td>
+      <td>${Number(d['Recovery Actions'] || 0).toFixed(1)}</td>
+      <td style="font-weight: 700; color: var(--blue);">${Number(d['Average Score'] || 0).toFixed(2)}</td>
+    </tr>
+  `).join('');
+}
+
+function loadHigherMgmtScorecards() {
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL + "?action=getScorecardData&type=Consultant")
+      .then(res => res.json())
+      .then(res => { if (res.status === 'success') renderScorecardTable('mgmtConsultantScorecardBody', res.data); });
+
+    fetch(GOOGLE_SCRIPT_URL + "?action=getScorecardData&type=Contractor")
+      .then(res => res.json())
+      .then(res => { if (res.status === 'success') renderScorecardTable('mgmtContractorScorecardBody', res.data); });
+  } else {
+    renderScorecardTable('mgmtConsultantScorecardBody', []);
+    renderScorecardTable('mgmtContractorScorecardBody', []);
+  }
+}
+
+function handleScorecardSubmit(e) {
+  e.preventDefault();
+  const payload = {
+    action: "submitScorecard",
+    scorecardType: currentScorecardType,
+    projectName: document.getElementById('scorePrjSelect').value,
+    progress: parseFloat(document.getElementById('scoreProgress').value),
+    quality: parseFloat(document.getElementById('scoreQuality').value),
+    hse: parseFloat(document.getElementById('scoreHSE').value),
+    reporting: parseFloat(document.getElementById('scoreReporting').value),
+    responsiveness: parseFloat(document.getElementById('scoreResponsiveness').value),
+    recovery: parseFloat(document.getElementById('scoreRecovery').value)
+  };
+
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(() => {
+      alert(currentScorecardType + ' Scorecard updated successfully!');
+      loadScorecardPageData();
+    });
+  } else {
+    alert('Scorecard submitted locally.');
+  }
 }
 
 // CONSULTANT VERIFICATION PAGE LOGIC
@@ -1199,7 +1498,6 @@ function toggleEntryMode() {
   }
 }
 
-// BIWEEKLY CADENCE UPDATED (WEEKS 2 & 4 ONLY)
 function handleCadenceChangeProgress() {
   const cadence = document.getElementById('pCadence').value;
   const container = document.getElementById('segmentContainer');
