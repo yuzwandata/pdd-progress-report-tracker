@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PDD Progress Reporting & Dashboard</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.apis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.apis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,600&display=swap" rel="stylesheet">
 <style>
 :root {
   --white: #ffffff;
@@ -140,7 +140,7 @@ button, input, select, textarea { font: inherit; }
 .hero-stat .value { font-size: 24px; font-weight: 600; color: var(--ink); margin-top: 6px; }
 .hero-stat .note { font-size: 10px; color: var(--muted); margin-top: 4px; }
 
-/* Dynamic S-Curve Graph */
+/* Dynamic Monthly S-Curve Chart */
 .chart-box {
   background: var(--soft);
   border: 1px solid var(--line);
@@ -208,6 +208,7 @@ th {
 }
 td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; color: #354052; }
 
+/* Colored Badges */
 .badge { display: inline-block; padding: 3px 8px; border-radius: 12px; font-size: 9px; font-weight: 600; text-transform: uppercase; }
 .badge-ahead { background: #e6f9f0; color: var(--green); }
 .badge-ontrack { background: #eefbff; color: var(--blue); }
@@ -426,6 +427,8 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             <th>Project Name</th>
             <th>Scope Category & Trade</th>
             <th>Reporting Segment</th>
+            <th>Reporting Month</th>
+            <th>Exact Date</th>
             <th>Planned %</th>
             <th>Actual %</th>
             <th>Variation</th>
@@ -463,7 +466,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
         <div class="form-grid">
           <div class="form-group">
             <label for="pPrj">Project Name</label>
-            <select id="pPrj" required onchange="fetchProjectMetadataAndHistory()">
+            <select id="pPrj" required onchange="onProjectSelectChangeProgress()">
               <option value="PRJ-001">Infrastructure P1 (PRJ-001)</option>
               <option value="PRJ-002">Infrastructure P2A (PRJ-002)</option>
               <option value="PRJ-003">Slope Remedial (PRJ-003)</option>
@@ -482,12 +485,12 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 
           <div class="form-group">
             <label for="pScopeCat">Scope Category</label>
-            <select id="pScopeCat" required><option value="">Loading metadata...</option></select>
+            <select id="pScopeCat" required onchange="filterHistoryByFormSelection()"><option value="">Loading metadata...</option></select>
           </div>
 
           <div class="form-group">
             <label for="pTrade">Trade</label>
-            <select id="pTrade" required><option value="">Loading metadata...</option></select>
+            <select id="pTrade" required onchange="filterHistoryByFormSelection()"><option value="">Loading metadata...</option></select>
           </div>
 
           <div class="form-group">
@@ -607,29 +610,30 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </form>
     </section>
 
-    <!-- LIVE HISTORY RECORDS SECTION WITH FILTERS -->
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-      <div class="eyebrow">LIVE SHEET HISTORY RECORDS</div>
-      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <select id="filterPrj" onchange="fetchProjectHistory()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
-          <option value="PRJ-001">Filter: PRJ-001</option>
-          <option value="PRJ-002">Filter: PRJ-002</option>
-          <option value="PRJ-003">Filter: PRJ-003</option>
-          <option value="PRJ-004">Filter: PRJ-004</option>
-          <option value="PRJ-005">Filter: PRJ-005</option>
-          <option value="PRJ-006">Filter: PRJ-006</option>
-          <option value="PRJ-007">Filter: PRJ-007</option>
-          <option value="PRJ-008">Filter: PRJ-008</option>
-        </select>
-        <select id="filterCat" onchange="applyHistoryFilters()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
-          <option value="ALL">All Categories</option>
-        </select>
-        <select id="filterTrade" onchange="applyHistoryFilters()" style="padding: 6px 10px; font-size: 11px; border: 1px solid var(--line); border-radius: 4px;">
-          <option value="ALL">All Trades</option>
-        </select>
-      </div>
+    <!-- NEW SECTION: SCHEDULE SETUP METADATA REFERENCE TABLE -->
+    <div class="eyebrow" style="margin-top: 24px;">SCHEDULE SETUP METADATA REFERENCE</div>
+    <div class="table-wrap" style="margin-bottom: 32px;">
+      <table>
+        <thead>
+          <tr>
+            <th>Entry ID</th>
+            <th>Project Name</th>
+            <th>Scope Code</th>
+            <th>Scope Category</th>
+            <th>Trade</th>
+            <th>Duration</th>
+            <th>Start Date</th>
+            <th>Finish Date</th>
+          </tr>
+        </thead>
+        <tbody id="metadataTableBody">
+          <!-- Metadata Entries Populated Here -->
+        </tbody>
+      </table>
     </div>
 
+    <!-- LIVE HISTORY RECORDS SECTION -->
+    <div class="eyebrow">LIVE SHEET HISTORY RECORDS (REAL-TIME FILTERED)</div>
     <div class="table-wrap">
       <table>
         <thead>
@@ -638,7 +642,9 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             <th>Project Name</th>
             <th>Scope Code & Category</th>
             <th>Trade</th>
-            <th>Cadence & Segment</th>
+            <th>Reporting Cadence</th>
+            <th>Reporting Month</th>
+            <th>Exact Date</th>
             <th>Planned %</th>
             <th>Actual %</th>
             <th>Variation</th>
@@ -655,7 +661,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 
 <script>
 // Paste Google Apps Script Web App URL below:
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxzsjsDZr98FRabIjKhts7NNz7N3muP8DFLZ6yFdjlj6rSX4aYDim3SNlEmuK1xP4cSGA/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSDtDaVr_0RgYJW8YHdxMfJGTzN2YusXuf7hMwOD430UHJuUrFlu7hXalfxL3yp9ntbA/exec";
 
 // Exact Financial Baseline from Project Details Overall Sheet
 let baselineOverallData = [
@@ -742,22 +748,91 @@ const fullMonthlyTrackingMap = {
       { m: "Sep 27", plan: 100.00, act: null }, { m: "Oct 27", plan: 100.00, act: null },
       { m: "Nov 27", plan: 100.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
     ]
+  },
+  "PRJ-005": {
+    "2026": [
+      { m: "Jan 26", plan: 0.00, act: 0.00 }, { m: "Feb 26", plan: 0.00, act: 0.00 },
+      { m: "Mar 26", plan: 0.00, act: 0.00 }, { m: "Apr 26", plan: 0.00, act: 0.00 },
+      { m: "May 26", plan: 0.00, act: 0.00 }, { m: "Jun 26", plan: 0.00, act: 0.00 },
+      { m: "Jul 26", plan: 0.00, act: 0.00 }, { m: "Aug 26", plan: 0.00, act: 0.00 },
+      { m: "Sep 26", plan: 0.00, act: 0.00 }, { m: "Oct 26", plan: 0.00, act: null },
+      { m: "Nov 26", plan: 0.00, act: null }, { m: "Dec 26", plan: 5.00, act: null }
+    ],
+    "2027": [
+      { m: "Jan 27", plan: 18.00, act: null }, { m: "Feb 27", plan: 35.00, act: null },
+      { m: "Mar 27", plan: 55.00, act: null }, { m: "Apr 27", plan: 75.00, act: null },
+      { m: "May 27", plan: 90.00, act: null }, { m: "Jun 27", plan: 100.00, act: null },
+      { m: "Jul 27", plan: 100.00, act: null }, { m: "Aug 27", plan: 100.00, act: null },
+      { m: "Sep 27", plan: 100.00, act: null }, { m: "Oct 27", plan: 100.00, act: null },
+      { m: "Nov 27", plan: 100.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
+    ]
+  },
+  "PRJ-006": {
+    "2026": [
+      { m: "Jan 26", plan: 0.00, act: 0.00 }, { m: "Feb 26", plan: 0.00, act: 0.00 },
+      { m: "Mar 26", plan: 0.00, act: 0.00 }, { m: "Apr 26", plan: 0.00, act: 0.00 },
+      { m: "May 26", plan: 0.00, act: 0.00 }, { m: "Jun 26", plan: 0.00, act: 0.00 },
+      { m: "Jul 26", plan: 0.00, act: 0.00 }, { m: "Aug 26", plan: 0.00, act: 0.00 },
+      { m: "Sep 26", plan: 0.00, act: 0.00 }, { m: "Oct 26", plan: 0.00, act: null },
+      { m: "Nov 26", plan: 0.00, act: null }, { m: "Dec 26", plan: 0.00, act: null }
+    ],
+    "2027": [
+      { m: "Jan 27", plan: 0.00, act: null }, { m: "Feb 27", plan: 8.00, act: null },
+      { m: "Mar 27", plan: 20.00, act: null }, { m: "Apr 27", plan: 35.00, act: null },
+      { m: "May 27", plan: 50.00, act: null }, { m: "Jun 27", plan: 65.00, act: null },
+      { m: "Jul 27", plan: 78.00, act: null }, { m: "Aug 27", plan: 88.00, act: null },
+      { m: "Sep 27", plan: 95.00, act: null }, { m: "Oct 27", plan: 100.00, act: null },
+      { m: "Nov 27", plan: 100.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
+    ]
+  },
+  "PRJ-007": {
+    "2026": [
+      { m: "Jan 26", plan: 0.00, act: 0.00 }, { m: "Feb 26", plan: 0.00, act: 0.00 },
+      { m: "Mar 26", plan: 0.00, act: 0.00 }, { m: "Apr 26", plan: 0.00, act: 0.00 },
+      { m: "May 26", plan: 0.00, act: 0.00 }, { m: "Jun 26", plan: 0.00, act: 0.00 },
+      { m: "Jul 26", plan: 0.00, act: 0.00 }, { m: "Aug 26", plan: 0.00, act: 0.00 },
+      { m: "Sep 26", plan: 0.00, act: 0.00 }, { m: "Oct 26", plan: 0.00, act: null },
+      { m: "Nov 26", plan: 0.00, act: null }, { m: "Dec 26", plan: 0.00, act: null }
+    ],
+    "2027": [
+      { m: "Jan 27", plan: 0.00, act: null }, { m: "Feb 27", plan: 0.00, act: null },
+      { m: "Mar 27", plan: 10.00, act: null }, { m: "Apr 27", plan: 22.00, act: null },
+      { m: "May 27", plan: 36.00, act: null }, { m: "Jun 27", plan: 52.00, act: null },
+      { m: "Jul 27", plan: 66.00, act: null }, { m: "Aug 27", plan: 80.00, act: null },
+      { m: "Sep 27", plan: 90.00, act: null }, { m: "Oct 27", plan: 96.00, act: null },
+      { m: "Nov 27", plan: 100.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
+    ]
+  },
+  "PRJ-008": {
+    "2026": [
+      { m: "Jan 26", plan: 0.00, act: 0.00 }, { m: "Feb 26", plan: 0.00, act: 0.00 },
+      { m: "Mar 26", plan: 0.00, act: 0.00 }, { m: "Apr 26", plan: 0.00, act: 0.00 },
+      { m: "May 26", plan: 0.00, act: 0.00 }, { m: "Jun 26", plan: 0.00, act: 0.00 },
+      { m: "Jul 26", plan: 0.00, act: 0.00 }, { m: "Aug 26", plan: 0.00, act: 0.00 },
+      { m: "Sep 26", plan: 0.00, act: 0.00 }, { m: "Oct 26", plan: 0.00, act: null },
+      { m: "Nov 26", plan: 0.00, act: null }, { m: "Dec 26", plan: 0.00, act: null }
+    ],
+    "2027": [
+      { m: "Jan 27", plan: 0.00, act: null }, { m: "Feb 27", plan: 0.00, act: null },
+      { m: "Mar 27", plan: 0.00, act: null }, { m: "Apr 27", plan: 8.00, act: null },
+      { m: "May 27", plan: 20.00, act: null }, { m: "Jun 27", plan: 35.00, act: null },
+      { m: "Jul 27", plan: 50.00, act: null }, { m: "Aug 27", plan: 65.00, act: null },
+      { m: "Sep 27", plan: 80.00, act: null }, { m: "Oct 27", plan: 90.00, act: null },
+      { m: "Nov 27", plan: 96.00, act: null }, { m: "Dec 27", plan: 100.00, act: null }
+    ]
   }
 };
 
 let currentMetadataList = [];
 let currentHistoryList = [];
 
-// Formatting helper: M / k representation
-function formatShortMillions(val) {
-  var num = Number(val || 0);
-  if (Math.abs(num) >= 1000000) {
-    var m = num / 1000000;
-    return "RM " + (m % 1 === 0 ? m.toFixed(1) : m.toFixed(3).replace(/\.?0+$/, '')) + "M";
-  } else if (Math.abs(num) >= 1000) {
-    return "RM " + (num / 1000).toFixed(0) + "k";
-  }
-  return "RM " + num.toLocaleString('en-MY');
+// Formatting helper: clean percentage string parser
+function parsePercentageVal(val) {
+  if (val === null || val === undefined || val === '') return 0.0;
+  var str = String(val).replace('%', '').trim();
+  var num = parseFloat(str);
+  if (isNaN(num)) return 0.0;
+  return num;
 }
 
 function formatExactRM(val) {
@@ -888,22 +963,31 @@ function renderApprovalTable(data) {
   const tbody = document.getElementById('approvalTableBody');
 
   if (!data || data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted);">No pending progress reports requiring approval.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--muted);">No pending progress reports requiring approval.</td></tr>';
     return;
   }
 
-  tbody.innerHTML = data.map((h, idx) => `
-    <tr>
-      <td style="font-weight: 600;">${h['Project Name']}</td>
-      <td>${h['Scope Category']}<br><small style="color: var(--muted);">${h['Trade']}</small></td>
-      <td>${h['Reporting Segment Period']}</td>
-      <td>${parseFloat(h['Planned']).toFixed(2)}%</td>
-      <td><strong>${parseFloat(h['Actual']).toFixed(2)}%</strong></td>
-      <td style="color: var(--red); font-weight: 600;">${h['Variation']}</td>
-      <td style="max-width: 220px;">${h['Remarks']}</td>
-      <td><button class="btn-action btn-approve" onclick="approveRecord('${h.sheetName}', ${h.rowNumber})">Approve</button></td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = data.map((h, idx) => {
+    var planNum = parsePercentageVal(h['Planned']);
+    var actNum = parsePercentageVal(h['Actual']);
+    var varNum = (actNum - planNum).toFixed(2);
+    var varStr = (varNum >= 0 ? '+' : '') + varNum + '%';
+
+    return `
+      <tr>
+        <td style="font-weight: 600;">${h['Project Name']}</td>
+        <td>${h['Scope Category']}<br><small style="color: var(--muted);">${h['Trade']}</small></td>
+        <td>${h['Reporting Period'] || h['Reporting Cadence'] || 'Biweekly'}</td>
+        <td>${h['Reporting Month'] || '-'}</td>
+        <td>${h['Reporting Segment Period'] || '-'}</td>
+        <td>${planNum.toFixed(2)}%</td>
+        <td><strong>${actNum.toFixed(2)}%</strong></td>
+        <td style="color: ${varNum >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${varStr}</td>
+        <td style="max-width: 220px;">${h['Remarks']}</td>
+        <td><button class="btn-action btn-approve" onclick="approveRecord('${h.sheetName}', ${h.rowNumber})">Approve</button></td>
+      </tr>
+    `;
+  }).join('');
 }
 
 function approveRecord(sheetName, rowNumber) {
@@ -971,10 +1055,15 @@ function fetchProjectMetadataAndHistory() {
         if (res.status === 'success' && res.data.length > 0) {
           currentMetadataList = res.data;
           populateMetadataDropdowns(res.data);
+          renderMetadataTable(res.data);
         } else {
           populateDefaultMetadataDropdowns(prjId);
+          renderMetadataTable([]);
         }
-      }).catch(() => populateDefaultMetadataDropdowns(prjId));
+      }).catch(() => {
+        populateDefaultMetadataDropdowns(prjId);
+        renderMetadataTable([]);
+      });
 
     // 2. Fetch History live
     fetch(GOOGLE_SCRIPT_URL + "?action=getProjectHistory&projectId=" + prjId)
@@ -983,11 +1072,11 @@ function fetchProjectMetadataAndHistory() {
         if (res.status === 'success') {
           currentHistoryList = res.data;
           renderHistoryTable(res.data);
-          populateCascadingHistoryFilters(res.data);
         }
       });
   } else {
     populateDefaultMetadataDropdowns(prjId);
+    renderMetadataTable([]);
     renderHistoryTable([]);
   }
 }
@@ -1011,9 +1100,9 @@ function populateDefaultMetadataDropdowns(prjId) {
   const catSel = document.getElementById('pScopeCat');
   const tradeSel = document.getElementById('pTrade');
 
-  codeSel.innerHTML = `<option value="SCP-01">SCP-01</option><option value="SCP-02">SCP-02</option>`;
-  catSel.innerHTML = `<option value="PRELIMINARIES AND GENERAL ITEMS">PRELIMINARIES AND GENERAL ITEMS</option><option value="JTU5 CH400 - C200">JTU5 CH400 - C200</option>`;
-  tradeSel.innerHTML = `<option value="Site Office / Facilities">Site Office / Facilities</option><option value="Site Clearing & Earthworks">Site Clearing & Earthworks</option>`;
+  codeSel.innerHTML = `<option value="JTU5 CH400 - C200">JTU5 CH400 - C200</option><option value="JTU5 CH200 - C0">JTU5 CH200 - C0</option>`;
+  catSel.innerHTML = `<option value="General">General</option><option value="Interim Water Reticulation">Interim Water Reticulation</option>`;
+  tradeSel.innerHTML = `<option value="Site Clearing & Earthworks">Site Clearing & Earthworks</option><option value="Road Marking">Road Marking</option>`;
 }
 
 function onScopeCodeSelectChange() {
@@ -1023,56 +1112,77 @@ function onScopeCodeSelectChange() {
     if (match['Scope Category']) document.getElementById('pScopeCat').value = match['Scope Category'];
     if (match['Trade']) document.getElementById('pTrade').value = match['Trade'];
   }
+  filterHistoryByFormSelection();
 }
 
-function fetchProjectHistory() {
+function onProjectSelectChangeProgress() {
   fetchProjectMetadataAndHistory();
 }
 
-function populateCascadingHistoryFilters(data) {
-  const catFilter = document.getElementById('filterCat');
-  const tradeFilter = document.getElementById('filterTrade');
-
-  const cats = [...new Set(data.map(d => d['Scope Category']).filter(Boolean))];
-  const trades = [...new Set(data.map(d => d['Trade']).filter(Boolean))];
-
-  catFilter.innerHTML = '<option value="ALL">All Categories</option>' + cats.map(c => `<option value="${c}">${c}</option>`).join('');
-  tradeFilter.innerHTML = '<option value="ALL">All Trades</option>' + trades.map(t => `<option value="${t}">${t}</option>`).join('');
-}
-
-function applyHistoryFilters() {
-  const selCat = document.getElementById('filterCat').value;
-  const selTrade = document.getElementById('filterTrade').value;
+function filterHistoryByFormSelection() {
+  const selCat = document.getElementById('pScopeCat').value;
+  const selTrade = document.getElementById('pTrade').value;
 
   let filtered = currentHistoryList;
-  if (selCat !== 'ALL') filtered = filtered.filter(d => d['Scope Category'] === selCat);
-  if (selTrade !== 'ALL') filtered = filtered.filter(d => d['Trade'] === selTrade);
+  if (selCat) filtered = filtered.filter(d => d['Scope Category'] === selCat);
+  if (selTrade) filtered = filtered.filter(d => d['Trade'] === selTrade);
 
   renderHistoryTable(filtered);
+}
+
+function renderMetadataTable(data) {
+  const tbody = document.getElementById('metadataTableBody');
+
+  if (!data || data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--muted);">No metadata schedule entries found for selected project.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = data.map(m => `
+    <tr>
+      <td style="font-weight: 600; color: var(--blue);">${m['Entry ID']}</td>
+      <td style="font-weight: 600;">${m['Project Name']}</td>
+      <td>${m['Scope Code']}</td>
+      <td>${m['Scope Category']}</td>
+      <td>${m['Trade']}</td>
+      <td>${m['Duration']}</td>
+      <td>${m['Start Date']}</td>
+      <td>${m['Finish Date']}</td>
+    </tr>
+  `).join('');
 }
 
 function renderHistoryTable(data) {
   const tbody = document.getElementById('historyTableBody');
 
   if (!data || data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--muted);">No history records found for selected project.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="12" style="text-align: center; color: var(--muted);">No history records found for selected project and trade.</td></tr>';
     return;
   }
 
-  tbody.innerHTML = data.map(h => `
-    <tr>
-      <td style="font-weight: 600; color: var(--blue);">${h['Entry ID']}</td>
-      <td style="font-weight: 600;">${h['Project Name']}</td>
-      <td>${h['Scope Code']}<br><small style="color: var(--muted);">${h['Scope Category']}</small></td>
-      <td>${h['Trade']}</td>
-      <td>${h['Reporting Period']} (${h['Reporting Month']} ${h['Reporting Segment Period']})</td>
-      <td>${parseFloat(h['Planned'] || 0).toFixed(2)}%</td>
-      <td><strong>${parseFloat(h['Actual'] || 0).toFixed(2)}%</strong></td>
-      <td style="color: ${parseFloat(h['Variation'] || 0) >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${h['Variation']}</td>
-      <td style="max-width: 200px;">${h['Remarks']}</td>
-      <td><span class="badge ${h['Approval'] === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${h['Approval']}</span></td>
-    </tr>
-  `).join('');
+  tbody.innerHTML = data.map(h => {
+    var planNum = parsePercentageVal(h['Planned']);
+    var actNum = parsePercentageVal(h['Actual']);
+    var varNum = (actNum - planNum).toFixed(2);
+    var varStr = (varNum >= 0 ? '+' : '') + varNum + '%';
+
+    return `
+      <tr>
+        <td style="font-weight: 600; color: var(--blue);">${h['Entry ID']}</td>
+        <td style="font-weight: 600;">${h['Project Name']}</td>
+        <td>${h['Scope Code']}<br><small style="color: var(--muted);">${h['Scope Category']}</small></td>
+        <td>${h['Trade']}</td>
+        <td>${h['Reporting Period'] || h['Reporting Cadence'] || 'Biweekly'}</td>
+        <td>${h['Reporting Month'] || '-'}</td>
+        <td>${h['Reporting Segment Period'] || '-'}</td>
+        <td>${planNum.toFixed(2)}%</td>
+        <td><strong>${actNum.toFixed(2)}%</strong></td>
+        <td style="color: ${varNum >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${varStr}</td>
+        <td style="max-width: 200px;">${h['Remarks']}</td>
+        <td><span class="badge ${h['Approval'] === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${h['Approval']}</span></td>
+      </tr>
+    `;
+  }).join('');
 }
 
 function handleProgressSubmit(e) {
@@ -1133,8 +1243,8 @@ function handleMetadataSubmit(e) {
     finishDate: document.getElementById('sFinishDate').value
   };
 
-  if (GOOGLE_SCRIPT_URL) {
-    fetch(GOOGLE_SCRIPT_URL, {
+  if (_SCRIPT_URL) {
+    fetch(_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
