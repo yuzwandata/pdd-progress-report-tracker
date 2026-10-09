@@ -465,7 +465,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       <div class="eyebrow">PORTFOLIO EVALUATION SUMMARY</div>
       <h3 style="margin: 4px 0 16px; font-size: 18px; font-weight: 600;">Consultant & Contractor Performance Scorecard</h3>
 
-      <!-- EXECUTIVE SCORECARD CARDS (EXCLUDING UNSTARTED / ZERO MONTHS) -->
+      <!-- EXECUTIVE SCORECARD CARDS -->
       <div class="hero-side" style="margin-bottom: 24px;">
         <div class="hero-stat">
           <div class="label">Consultant Portfolio Avg</div>
@@ -479,20 +479,31 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
         </div>
       </div>
 
-      <!-- PROJECT FILTER FOR SCORECARD TABLES -->
-      <div style="max-width: 380px; margin-bottom: 20px;">
-        <label for="mgmtScorecardPrjFilter" style="font-size: 10px; font-weight: 700; text-transform: uppercase;">Filter Scorecard by Project:</label>
-        <select id="mgmtScorecardPrjFilter" onchange="loadHigherMgmtScorecards()" style="width: 100%; border: 1px solid var(--line); padding: 8px; font-size: 11px; border-radius: 4px; margin-top: 4px;">
-          <option value="ALL">All Projects</option>
-          <option value="Infrastructure P1">PRJ-001: Infrastructure P1</option>
-          <option value="Infrastructure P2A">PRJ-002: Infrastructure P2A</option>
-          <option value="Slope Remedial">PRJ-003: Slope Remedial</option>
-          <option value="Area 57">PRJ-004: Area 57</option>
-          <option value="AI Customer Support Bot">PRJ-005: AI Customer Support Bot</option>
-          <option value="Data Lakehouse & BI Hub">PRJ-006: Data Lakehouse & BI Hub</option>
-          <option value="Supply Chain Automation">PRJ-007: Supply Chain Automation</option>
-          <option value="Cyber Security Zero-Trust">PRJ-008: Cyber Security Zero-Trust</option>
-        </select>
+      <!-- PROJECT & YEAR FILTERS FOR SCORECARD TABLES IN HIGHER MGMT VIEW -->
+      <div style="display: flex; gap: 12px; max-width: 580px; margin-bottom: 20px; flex-wrap: wrap;">
+        <div style="flex: 1; min-width: 240px;">
+          <label for="mgmtScorecardPrjFilter" style="font-size: 10px; font-weight: 700; text-transform: uppercase;">Filter Scorecard by Project:</label>
+          <select id="mgmtScorecardPrjFilter" onchange="loadHigherMgmtScorecards()" style="width: 100%; border: 1px solid var(--line); padding: 8px; font-size: 11px; border-radius: 4px; margin-top: 4px;">
+            <option value="ALL">All Projects</option>
+            <option value="Infrastructure P1">PRJ-001: Infrastructure P1</option>
+            <option value="Infrastructure P2A">PRJ-002: Infrastructure P2A</option>
+            <option value="Slope Remedial">PRJ-003: Slope Remedial</option>
+            <option value="Area 57">PRJ-004: Area 57</option>
+            <option value="AI Customer Support Bot">PRJ-005: AI Customer Support Bot</option>
+            <option value="Data Lakehouse & BI Hub">PRJ-006: Data Lakehouse & BI Hub</option>
+            <option value="Supply Chain Automation">PRJ-007: Supply Chain Automation</option>
+            <option value="Cyber Security Zero-Trust">PRJ-008: Cyber Security Zero-Trust</option>
+          </select>
+        </div>
+
+        <div style="width: 140px;">
+          <label for="mgmtScorecardYearFilter" style="font-size: 10px; font-weight: 700; text-transform: uppercase;">Filter Year:</label>
+          <select id="mgmtScorecardYearFilter" onchange="loadHigherMgmtScorecards()" style="width: 100%; border: 1px solid var(--line); padding: 8px; font-size: 11px; border-radius: 4px; margin-top: 4px;">
+            <option value="ALL">All Years</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+          </select>
+        </div>
       </div>
 
       <div class="table-wrap" style="margin-bottom: 24px;">
@@ -626,33 +637,34 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             </select>
           </div>
 
+          <!-- UPDATED PLACEHOLDERS TO SCORE 1-10 INSTEAD OF 0 -->
           <div class="form-group">
-            <label for="scoreProgress">Progress (1.0 - 10.0)</label>
+            <label for="scoreProgress">Progress (Score 1-10)</label>
             <input type="number" id="scoreProgress" min="1" max="10" step="0.1" placeholder="Score 1-10" required oninput="calcAverageScorecard()">
           </div>
 
           <div class="form-group">
-            <label for="scoreQuality">Quality (1.0 - 10.0)</label>
+            <label for="scoreQuality">Quality (Score 1-10)</label>
             <input type="number" id="scoreQuality" min="1" max="10" step="0.1" placeholder="Score 1-10" required oninput="calcAverageScorecard()">
           </div>
 
           <div class="form-group">
-            <label for="scoreHSE">HSE (1.0 - 10.0)</label>
+            <label for="scoreHSE">HSE (Score 1-10)</label>
             <input type="number" id="scoreHSE" min="1" max="10" step="0.1" placeholder="Score 1-10" required oninput="calcAverageScorecard()">
           </div>
 
           <div class="form-group">
-            <label for="scoreReporting">Reporting Compliance (1.0 - 10.0)</label>
+            <label for="scoreReporting">Reporting Compliance (Score 1-10)</label>
             <input type="number" id="scoreReporting" min="1" max="10" step="0.1" placeholder="Score 1-10" required oninput="calcAverageScorecard()">
           </div>
 
           <div class="form-group">
-            <label for="scoreResponsiveness">Responsiveness (1.0 - 10.0)</label>
+            <label for="scoreResponsiveness">Responsiveness (Score 1-10)</label>
             <input type="number" id="scoreResponsiveness" min="1" max="10" step="0.1" placeholder="Score 1-10" required oninput="calcAverageScorecard()">
           </div>
 
           <div class="form-group">
-            <label for="scoreRecovery">Recovery Actions (1.0 - 10.0)</label>
+            <label for="scoreRecovery">Recovery Actions (Score 1-10)</label>
             <input type="number" id="scoreRecovery" min="1" max="10" step="0.1" placeholder="Score 1-10" required oninput="calcAverageScorecard()">
           </div>
 
@@ -673,21 +685,30 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </form>
     </section>
 
-    <!-- FILTER AND TABLE FOR PDD AUTHORITY SCORECARD VIEW -->
-    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 24px;">
+    <!-- FILTER AND TABLE FOR PDD AUTHORITY SCORECARD VIEW (WITH PROJECT & YEAR FILTERS) -->
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: 24px; gap: 12px;">
       <div class="eyebrow" id="scorecardTableLabel">CURRENT CONSULTANT SCORECARD DATA</div>
-      <div style="width: 280px;">
-        <select id="pddAuthorityPrjFilter" onchange="filterAuthorityScorecardTable()" style="width: 100%; border: 1px solid var(--line); padding: 6px 10px; font-size: 11px; border-radius: 4px;">
-          <option value="ALL">All Projects</option>
-          <option value="Infrastructure P1">PRJ-001: Infrastructure P1</option>
-          <option value="Infrastructure P2A">PRJ-002: Infrastructure P2A</option>
-          <option value="Slope Remedial">PRJ-003: Slope Remedial</option>
-          <option value="Area 57">PRJ-004: Area 57</option>
-          <option value="AI Customer Support Bot">PRJ-005: AI Customer Support Bot</option>
-          <option value="Data Lakehouse & BI Hub">PRJ-006: Data Lakehouse & BI Hub</option>
-          <option value="Supply Chain Automation">PRJ-007: Supply Chain Automation</option>
-          <option value="Cyber Security Zero-Trust">PRJ-008: Cyber Security Zero-Trust</option>
-        </select>
+      <div style="display: flex; gap: 10px; width: 100%; max-width: 440px;">
+        <div style="flex: 1;">
+          <select id="pddAuthorityPrjFilter" onchange="filterAuthorityScorecardTable()" style="width: 100%; border: 1px solid var(--line); padding: 6px 10px; font-size: 11px; border-radius: 4px;">
+            <option value="ALL">All Projects</option>
+            <option value="Infrastructure P1">PRJ-001: Infrastructure P1</option>
+            <option value="Infrastructure P2A">PRJ-002: Infrastructure P2A</option>
+            <option value="Slope Remedial">PRJ-003: Slope Remedial</option>
+            <option value="Area 57">PRJ-004: Area 57</option>
+            <option value="AI Customer Support Bot">PRJ-005: AI Customer Support Bot</option>
+            <option value="Data Lakehouse & BI Hub">PRJ-006: Data Lakehouse & BI Hub</option>
+            <option value="Supply Chain Automation">PRJ-007: Supply Chain Automation</option>
+            <option value="Cyber Security Zero-Trust">PRJ-008: Cyber Security Zero-Trust</option>
+          </select>
+        </div>
+        <div style="width: 120px;">
+          <select id="pddAuthorityYearFilter" onchange="filterAuthorityScorecardTable()" style="width: 100%; border: 1px solid var(--line); padding: 6px 10px; font-size: 11px; border-radius: 4px;">
+            <option value="ALL">All Years</option>
+            <option value="2026">2026</option>
+            <option value="2027">2027</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -954,7 +975,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 
 <script>
 // Paste Google Apps Script Web App URL below:
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcP-EF7zVpuHXDf-34RSpzp4kz_QOibBWVzd6kxwiULhTn3k1xodLSOdzdV23SiY6hoQ/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyC-Ww79XmnxHhRXGIanDl7zZkvZ7oP05Lb1ufKIWnSxZTqY-IXGRWuVpfhC0Tdh4Fg/exec";
 
 let baselineOverallData = [
   { id: "PRJ-001", name: "Infrastructure P1", cat: "CAPEX", budget: 75000000.00, cost: 68500000.00, paid: 38000000.00, claim: 4200000.00, balance: 6500000.00, status: "In Progress", health: "Ahead" },
@@ -1333,12 +1354,19 @@ function loadScorecardPageData() {
   }
 }
 
+// FILTER BY PROJECT AND YEAR IN PDD AUTHORITY SCORECARD PORTAL
 function filterAuthorityScorecardTable() {
   const filterPrj = document.getElementById('pddAuthorityPrjFilter').value;
+  const filterYear = document.getElementById('pddAuthorityYearFilter').value;
+
   let filtered = activeScorecardData;
   
   if (filterPrj !== 'ALL') {
     filtered = filtered.filter(d => String(d['Project Name']).trim().toLowerCase() === filterPrj.trim().toLowerCase());
+  }
+
+  if (filterYear !== 'ALL') {
+    filtered = filtered.filter(d => String(d['Month']).indexOf(filterYear) !== -1);
   }
   
   renderScorecardTable('pddAuthorityScorecardTableBody', filtered);
@@ -1354,12 +1382,12 @@ function loadExistingProjectScoreData() {
   );
 
   if (match) {
-    document.getElementById('scoreProgress').value = match['Progress'] || 0;
-    document.getElementById('scoreQuality').value = match['Quality'] || 0;
-    document.getElementById('scoreHSE').value = match['HSE'] || 0;
-    document.getElementById('scoreReporting').value = match['Reporting Compliance'] || 0;
-    document.getElementById('scoreResponsiveness').value = match['Responsiveness'] || 0;
-    document.getElementById('scoreRecovery').value = match['Recovery Actions'] || 0;
+    document.getElementById('scoreProgress').value = match['Progress'] || '';
+    document.getElementById('scoreQuality').value = match['Quality'] || '';
+    document.getElementById('scoreHSE').value = match['HSE'] || '';
+    document.getElementById('scoreReporting').value = match['Reporting Compliance'] || '';
+    document.getElementById('scoreResponsiveness').value = match['Responsiveness'] || '';
+    document.getElementById('scoreRecovery').value = match['Recovery Actions'] || '';
   } else {
     document.getElementById('scoreProgress').value = '';
     document.getElementById('scoreQuality').value = '';
@@ -1407,9 +1435,10 @@ function renderScorecardTable(targetTbodyId, data) {
   }).join('');
 }
 
-// HIGHER MANAGEMENT SCORECARD SUMMARY & KPI CARDS (EXCLUDING ZERO / UNSTARTED MONTHS)
+// HIGHER MANAGEMENT SCORECARD SUMMARY & KPI CARDS (FILTER BY PROJECT AND YEAR)
 function loadHigherMgmtScorecards() {
   const filterPrj = document.getElementById('mgmtScorecardPrjFilter').value;
+  const filterYear = document.getElementById('mgmtScorecardYearFilter').value;
 
   if (GOOGLE_SCRIPT_URL) {
     fetch(GOOGLE_SCRIPT_URL + "?action=getScorecardData&type=Consultant")
@@ -1417,7 +1446,15 @@ function loadHigherMgmtScorecards() {
       .then(res => { 
         if (res.status === 'success') {
           consultantScorecardFullList = res.data;
-          var filtered = filterPrj === 'ALL' ? res.data : res.data.filter(d => String(d['Project Name']).trim().toLowerCase() === filterPrj.trim().toLowerCase());
+          var filtered = res.data;
+
+          if (filterPrj !== 'ALL') {
+            filtered = filtered.filter(d => String(d['Project Name']).trim().toLowerCase() === filterPrj.trim().toLowerCase());
+          }
+          if (filterYear !== 'ALL') {
+            filtered = filtered.filter(d => String(d['Month']).indexOf(filterYear) !== -1);
+          }
+
           renderScorecardTable('mgmtConsultantScorecardBody', filtered);
           calculateScorecardKPICards();
         } 
@@ -1428,7 +1465,15 @@ function loadHigherMgmtScorecards() {
       .then(res => { 
         if (res.status === 'success') {
           contractorScorecardFullList = res.data;
-          var filtered = filterPrj === 'ALL' ? res.data : res.data.filter(d => String(d['Project Name']).trim().toLowerCase() === filterPrj.trim().toLowerCase());
+          var filtered = res.data;
+
+          if (filterPrj !== 'ALL') {
+            filtered = filtered.filter(d => String(d['Project Name']).trim().toLowerCase() === filterPrj.trim().toLowerCase());
+          }
+          if (filterYear !== 'ALL') {
+            filtered = filtered.filter(d => String(d['Month']).indexOf(filterYear) !== -1);
+          }
+
           renderScorecardTable('mgmtContractorScorecardBody', filtered);
           calculateScorecardKPICards();
         } 
@@ -1451,7 +1496,6 @@ function calculateScorecardKPICards() {
     var res = parseFloat(d['Responsiveness'] || 0);
     var rec = parseFloat(d['Recovery Actions'] || 0);
     
-    // Ignore month if all 6 aspects are 0 (unstarted month)
     if (p > 0 || q > 0 || h > 0 || r > 0 || res > 0 || rec > 0) {
       cValidCount++;
       cSumAvg += (p + q + h + r + res + rec) / 6.0;
@@ -1492,7 +1536,7 @@ function handleScorecardSubmit(e) {
   const res = parseFloat(document.getElementById('scoreResponsiveness').value);
   const rec = parseFloat(document.getElementById('scoreRecovery').value);
 
-  // Strict Validation for Ratings (1.0 to 10.0)
+  // Strict Rating Range Check (1.0 to 10.0)
   if ([p, q, h, r, res, rec].some(val => isNaN(val) || val < 1.0 || val > 10.0)) {
     alert("Invalid score entry! Ratings must be between 1.0 and 10.0.");
     return;
