@@ -71,7 +71,7 @@ button, input, select, textarea { font: inherit; }
   letter-spacing: .08em;
 }
 
-.nav-links { display: flex; gap: 10px; align-items: center; }
+.nav-links { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .btn-nav {
   background: var(--soft);
   border: 1px solid var(--line);
@@ -96,8 +96,8 @@ button, input, select, textarea { font: inherit; }
 
 /* Page 1: Login */
 .login-container {
-  max-width: 480px;
-  margin: 60px auto;
+  max-width: 520px;
+  margin: 50px auto;
   background: var(--softb);
   border: 1px solid #c8d2ff;
   border-radius: 8px;
@@ -147,6 +147,22 @@ button, input, select, textarea { font: inherit; }
   padding: 24px;
   border-radius: 6px;
   margin-top: 24px;
+}
+
+.chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.chart-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 480px;
 }
 
 .chart-bar-container {
@@ -275,13 +291,21 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
   border-radius: 4px;
   cursor: pointer;
 }
+.btn-verify { background: var(--amber); color: #111; }
 .btn-approve { background: var(--green); }
+
+/* Mobile Responsiveness Fixes */
+@media (max-width: 768px) {
+  .page { padding: 16px 18px 48px; }
+  .chart-header { flex-direction: column; align-items: flex-start; }
+  .chart-controls { width: 100%; max-width: 100%; }
+}
 </style>
 </head>
 <body>
 
 <div class="page">
-  <!-- COMMON HEADER (Pages 2-4) -->
+  <!-- COMMON HEADER -->
   <header class="masthead" id="appHeader" style="display: none;">
     <div class="brand">
       <img src="MRANTI 30Y Icon.png" alt="MRANTI Icon" onerror="this.src='https://cdn.prod.website-files.com/6719e3902a71ea8154ba371d/6996a2c470a01e3f32ffa080_M30.png'">
@@ -289,9 +313,10 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
     </div>
 
     <div class="nav-links">
-      <button class="btn-nav" id="navDashboard" onclick="switchPage('page2')">Executive Dashboard</button>
-      <button class="btn-nav" id="navApproval" onclick="switchPage('page3')">Progress Approvals</button>
-      <button class="btn-nav" id="navInput" onclick="switchPage('page4')">Progress Input & History</button>
+      <button class="btn-nav" id="navDashboard" onclick="switchPage('page2')">Higher Management View</button>
+      <button class="btn-nav" id="navVerification" onclick="switchPage('page3Consultant')">Consultant Verification</button>
+      <button class="btn-nav" id="navApproval" onclick="switchPage('page3Authority')">PDD Approval</button>
+      <button class="btn-nav" id="navInput" onclick="switchPage('page4')">Contractor / Developer Portal</button>
       <button class="btn-nav btn-logout" onclick="logout()">Log Out</button>
     </div>
   </header>
@@ -307,17 +332,18 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       <p style="font-size: 11px; color: var(--muted);">Select portal view mode to proceed:</p>
 
       <div class="login-btn-group">
-        <button class="btn-login-role" onclick="loginAs('Management')">Management View</button>
-        <button class="btn-login-role" onclick="loginAs('Authority')">Authority View</button>
+        <button class="btn-login-role" onclick="loginAs('HigherManagement')">Higher Management View</button>
+        <button class="btn-login-role" onclick="loginAs('Consultant')">Consultant View</button>
+        <button class="btn-login-role" onclick="loginAs('PDDAuthority')">PDD Authority View</button>
         <button class="btn-login-role" onclick="loginAs('Contractor')">Contractor / Developer View</button>
       </div>
     </div>
   </div>
 
-  <!-- PAGE 2: DASHBOARD -->
+  <!-- PAGE 2: HIGHER MANAGEMENT VIEW PAGE -->
   <div id="page2" class="app-page">
-    <div class="eyebrow">PAGE 2 · MANAGEMENT & AUTHORITY VIEW</div>
-    <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Financial Breakdown & Portfolio Dashboard</h2>
+    <div class="eyebrow">PAGE 2 · HIGHER MANAGEMENT VIEW</div>
+    <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Higher Management View Page</h2>
 
     <!-- Summary Headline Cards Formatted in M / k -->
     <div class="hero-side">
@@ -354,7 +380,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
     </div>
 
     <!-- Table Project Details Overall -->
-    <div class="eyebrow" style="margin-top: 24px;">PROJECT DETAILS OVERALL (LIVE SHEET SYNC)</div>
+    <div class="eyebrow" style="margin-top: 24px;">PROJECT DETAILS OVERALL</div>
     <div class="table-wrap">
       <table>
         <thead>
@@ -373,15 +399,15 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </table>
     </div>
 
-    <!-- Project Monthly Tracking Graph Section with Year & Project Selectors -->
+    <!-- Project Monthly Tracking Graph Section with Fixed Canvas Filters -->
     <div class="chart-box">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+      <div class="chart-header">
         <div>
           <div class="eyebrow">MONTHLY TRAJECTORY ANALYTICS</div>
           <h3 style="margin: 4px 0 0; font-size: 16px; font-weight: 600;">Project Progress S-Curve Analysis</h3>
         </div>
-        <div style="display: flex; gap: 10px; min-width: 380px;">
-          <div style="flex: 1;">
+        <div class="chart-controls">
+          <div style="flex: 1; min-width: 180px;">
             <label for="chartProjectSelect" style="font-size: 9px; font-weight: 700; text-transform: uppercase;">Project View:</label>
             <select id="chartProjectSelect" onchange="loadMonthlyTrackingGraph()" style="width: 100%; border: 1px solid var(--line); padding: 7px; font-size: 11px; border-radius: 4px;">
               <option value="PRJ-001">PRJ-001: Infrastructure P1</option>
@@ -394,7 +420,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
               <option value="PRJ-008">PRJ-008: Cyber Security Zero-Trust</option>
             </select>
           </div>
-          <div style="width: 110px;">
+          <div style="width: 120px;">
             <label for="chartYearSelect" style="font-size: 9px; font-weight: 700; text-transform: uppercase;">Year View:</label>
             <select id="chartYearSelect" onchange="loadMonthlyTrackingGraph()" style="width: 100%; border: 1px solid var(--line); padding: 7px; font-size: 11px; border-radius: 4px;">
               <option value="2026" selected>2026</option>
@@ -412,12 +438,57 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
     </div>
   </div>
 
-  <!-- PAGE 3: APPROVALS -->
-  <div id="page3" class="app-page">
-    <div class="eyebrow">PAGE 3 · AUTHORITY PROGRESS APPROVAL PORTAL</div>
-    <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Pending Submissions Awaiting Approval</h2>
+  <!-- PAGE 3A: CONSULTANT PROGRESS REPORT VERIFICATION PAGE -->
+  <div id="page3Consultant" class="app-page">
+    <div class="eyebrow">PAGE 3 · CONSULTANT PORTAL</div>
+    <h2 style="margin: 6px 0 8px; font-size: 22px; font-weight: 600;">Consultant Progress Report Verification Page</h2>
     <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px;">
-      Review progress reports submitted by contractors with <strong>Approval = "NO"</strong>. Clicking <strong>Approve</strong> will update the sheet record directly to <strong>"YES"</strong>.
+      Pending submission from contractor awaiting verification (<strong>Verification = "NO"</strong>).
+    </p>
+
+    <!-- TOP LAYER PROJECT FILTER FOR CONSULTANT -->
+    <div style="max-width: 360px; margin-bottom: 20px;">
+      <label for="consultantProjectFilter" style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: var(--ink2);">Select Project to Verify:</label>
+      <select id="consultantProjectFilter" onchange="renderConsultantTable()" style="width: 100%; border: 1px solid var(--line); padding: 8px; font-size: 12px; border-radius: 4px; margin-top: 4px;">
+        <option value="ALL">All Projects</option>
+        <option value="PRJ-001">PRJ-001: Infrastructure P1</option>
+        <option value="PRJ-002">PRJ-002: Infrastructure P2A</option>
+        <option value="PRJ-003">PRJ-003: Slope Remedial</option>
+        <option value="PRJ-004">PRJ-004: Area 57</option>
+        <option value="PRJ-005">PRJ-005: AI Customer Support Bot</option>
+        <option value="PRJ-006">PRJ-006: Data Lakehouse & BI Hub</option>
+        <option value="PRJ-007">PRJ-007: Supply Chain Automation</option>
+        <option value="PRJ-008">PRJ-008: Cyber Security Zero-Trust</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Project Name</th>
+            <th>Scope Category & Trade</th>
+            <th>Reporting Segment</th>
+            <th>Reporting Month</th>
+            <th>Exact Date</th>
+            <th>Planned %</th>
+            <th>Actual %</th>
+            <th>Variation</th>
+            <th>Remarks</th>
+            <th>Verification Action</th>
+          </tr>
+        </thead>
+        <tbody id="consultantTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PAGE 3B: PDD AUTHORITY PROGRESS APPROVAL PORTAL -->
+  <div id="page3Authority" class="app-page">
+    <div class="eyebrow">PAGE 3 · PDD AUTHORITY PORTAL</div>
+    <h2 style="margin: 6px 0 8px; font-size: 22px; font-weight: 600;">PDD Authority Progress Approval Portal</h2>
+    <p style="font-size: 11px; color: var(--muted); margin-bottom: 20px;">
+      Review consultant-verified progress submissions (<strong>Verification = "YES"</strong> and <strong>Approval = "NO"</strong>).
     </p>
 
     <div class="table-wrap">
@@ -436,15 +507,15 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             <th>Approval Action</th>
           </tr>
         </thead>
-        <tbody id="approvalTableBody"></tbody>
+        <tbody id="authorityTableBody"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- PAGE 4: INPUT & HISTORY -->
+  <!-- PAGE 4: CONTRACTOR / DEVELOPER PAGE -->
   <div id="page4" class="app-page">
-    <div class="eyebrow">PAGE 4 · AUTHORITY & CONTRACTOR / DEVELOPER PORTAL</div>
-    <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Project Progress Entry & Live History</h2>
+    <div class="eyebrow">PAGE 4 · CONTRACTOR / DEVELOPER PORTAL</div>
+    <h2 style="margin: 6px 0 16px; font-size: 22px; font-weight: 600;">Contractor/Developer Page</h2>
 
     <section class="entry-card">
       <div class="form-group" style="margin-bottom: 12px; max-width: 320px;">
@@ -511,13 +582,12 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             </select>
           </div>
 
+          <!-- UPDATED BIWEEKLY CADENCE CONTAINER (WEEKS 2 & 4 ONLY) -->
           <div class="form-group" id="segmentContainer">
             <label for="pSegment">Segment Period</label>
             <select id="pSegment">
-              <option value="Week 1 (1st - 7th)">Week 1 (1st - 7th)</option>
-              <option value="Week 2 (8th - 14th)" selected>Week 2 (8th - 14th)</option>
-              <option value="Week 3 (15th - 21st)">Week 3 (15th - 21st)</option>
-              <option value="Week 4 (22nd - End)">Week 4 (22nd - End)</option>
+              <option value="Week 2 (1st - 14th)" selected>Week 2 (1st - 14th)</option>
+              <option value="Week 4 (15th - End)">Week 4 (15th - End)</option>
             </select>
           </div>
 
@@ -630,7 +700,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </table>
     </div>
 
-    <!-- LIVE HISTORY RECORDS SECTION -->
+    <!-- LIVE HISTORY RECORDS SECTION (SHOWS BOTH VERIFICATION & APPROVAL) -->
     <div class="eyebrow">LIVE SHEET HISTORY RECORDS (REAL-TIME FILTERED)</div>
     <div class="table-wrap">
       <table>
@@ -647,7 +717,8 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             <th>Actual %</th>
             <th>Variation</th>
             <th>Remarks</th>
-            <th>Approval</th>
+            <th>Verified</th>
+            <th>Approved</th>
           </tr>
         </thead>
         <tbody id="historyTableBody"></tbody>
@@ -659,7 +730,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 
 <script>
 // Paste Google Apps Script Web App URL below:
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwdonBq2BzGxBsi9RNtC7alUOvREXDdtP4EBwJ6psqoWxVYgZ-XuKBjTOUIVIJbiAZyfA/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxPNT3ap01ahIxk4RkzIjqdJxN52TAskfpGuYWlHXG7VVHj6brMG4v_jmk5qHaJpIPfCA/exec";
 
 // Exact Financial Baseline from Project Details Overall Sheet
 let baselineOverallData = [
@@ -673,7 +744,7 @@ let baselineOverallData = [
   { id: "PRJ-008", name: "Cyber Security Zero-Trust", cat: "Government Grant", budget: 0.00, cost: 0.00, paid: 0.00, claim: 0.00, balance: 0.00, status: "Planning", health: "Planned" }
 ];
 
-// Complete S-Curve Tracking Data for PRJ-001 through PRJ-008
+// Complete S-Curve Tracking Data
 const fullMonthlyTrackingMap = {
   "PRJ-001": {
     "2026": [
@@ -823,70 +894,43 @@ const fullMonthlyTrackingMap = {
 
 let currentMetadataList = [];
 let currentHistoryList = [];
+let pendingVerificationsList = [];
 
-/**
- * Robust Percentage Parser
- * Fixes raw decimals (0.85 -> 85.00%) vs strings ("85.00%")
- */
 function parsePercentageVal(val) {
   if (val === null || val === undefined || val === '') return 0.0;
-  
   if (typeof val === 'number') {
-    // If entered as a decimal (e.g. 0.85 or 0.75), convert to percentage number (85 or 75)
     if (val <= 1.0 && val > 0) return val * 100.0;
     return val;
   }
-  
   var str = String(val).replace('%', '').trim();
   var num = parseFloat(str);
   if (isNaN(num)) return 0.0;
-  
   if (num <= 1.0 && num > 0 && String(val).indexOf('%') === -1) {
     return num * 100.0;
   }
   return num;
 }
 
-/**
- * Robust Month Formatter
- * Converts ISO date "2026-09-30T16:00:00.000Z" or "2026-10" to "October 2026"
- */
 function formatMonthText(val) {
   if (!val || val === '-') return '-';
   var str = String(val).trim();
-
-  // If already formatted like "October 2026"
   if (/^[A-Za-z]+\s+\d{4}$/.test(str)) return str;
-
-  // Check if string contains ISO date or YYYY-MM
   var d = new Date(str);
   if (!isNaN(d.getTime())) {
     var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     return months[d.getUTCMonth()] + " " + d.getUTCFullYear();
   }
-
   return str;
 }
 
-/**
- * Robust Calendar Date Formatter
- * Converts ISO timestamps "2025-09-16T16:00:00.000Z" to "10/9/2026"
- */
 function formatDateShort(val) {
   if (!val || val === '-') return '-';
   var str = String(val).trim();
-
-  // If it's a cadence label like "Week 2 (8th - 14th)" or "By Month", keep as is
-  if (str.indexOf('Week') !== -1 || str.indexOf('By Month') !== -1) {
-    return str;
-  }
-
+  if (str.indexOf('Week') !== -1 || str.indexOf('By Month') !== -1) return str;
   var d = new Date(str);
   if (!isNaN(d.getTime())) {
-    // Return D/M/YYYY
     return d.getUTCDate() + "/" + (d.getUTCMonth() + 1) + "/" + d.getUTCFullYear();
   }
-
   return str;
 }
 
@@ -898,18 +942,28 @@ function loginAs(role) {
   document.getElementById('appHeader').style.display = 'flex';
   document.getElementById('appRule').style.display = 'block';
 
-  if (role === 'Management') {
+  // Navigation visibility matrix
+  if (role === 'HigherManagement') {
     document.getElementById('navDashboard').style.display = 'inline-block';
+    document.getElementById('navVerification').style.display = 'none';
     document.getElementById('navApproval').style.display = 'none';
     document.getElementById('navInput').style.display = 'none';
     switchPage('page2');
-  } else if (role === 'Authority') {
+  } else if (role === 'Consultant') {
+    document.getElementById('navDashboard').style.display = 'none'; // Consultant CANNOT view dashboard
+    document.getElementById('navVerification').style.display = 'inline-block';
+    document.getElementById('navApproval').style.display = 'none';
+    document.getElementById('navInput').style.display = 'inline-block';
+    switchPage('page3Consultant');
+  } else if (role === 'PDDAuthority') {
     document.getElementById('navDashboard').style.display = 'inline-block';
+    document.getElementById('navVerification').style.display = 'none';
     document.getElementById('navApproval').style.display = 'inline-block';
     document.getElementById('navInput').style.display = 'inline-block';
-    switchPage('page2');
+    switchPage('page3Authority');
   } else if (role === 'Contractor') {
     document.getElementById('navDashboard').style.display = 'none';
+    document.getElementById('navVerification').style.display = 'none';
     document.getElementById('navApproval').style.display = 'none';
     document.getElementById('navInput').style.display = 'inline-block';
     switchPage('page4');
@@ -928,11 +982,13 @@ function switchPage(pageId) {
 
   document.querySelectorAll('.btn-nav').forEach(b => b.classList.remove('active'));
   if (pageId === 'page2') document.getElementById('navDashboard').classList.add('active');
-  if (pageId === 'page3') document.getElementById('navApproval').classList.add('active');
+  if (pageId === 'page3Consultant') document.getElementById('navVerification').classList.add('active');
+  if (pageId === 'page3Authority') document.getElementById('navApproval').classList.add('active');
   if (pageId === 'page4') document.getElementById('navInput').classList.add('active');
 
   if (pageId === 'page2') { loadPage2Data(); loadMonthlyTrackingGraph(); }
-  if (pageId === 'page3') loadPage3Data();
+  if (pageId === 'page3Consultant') loadConsultantPageData();
+  if (pageId === 'page3Authority') loadAuthorityPageData();
   if (pageId === 'page4') fetchProjectMetadataAndHistory();
 }
 
@@ -1002,42 +1058,110 @@ function loadMonthlyTrackingGraph() {
   }).join('');
 }
 
-function loadPage3Data() {
+// CONSULTANT VERIFICATION PAGE LOGIC
+function loadConsultantPageData() {
   if (GOOGLE_SCRIPT_URL) {
-    fetch(GOOGLE_SCRIPT_URL + "?action=getPendingApprovals")
+    fetch(GOOGLE_SCRIPT_URL + "?action=getPendingVerifications")
       .then(res => res.json())
       .then(res => {
-        if (res.status === 'success') renderApprovalTable(res.data);
+        if (res.status === 'success') {
+          pendingVerificationsList = res.data;
+          renderConsultantTable();
+        }
       });
   } else {
-    renderApprovalTable([]);
+    pendingVerificationsList = [];
+    renderConsultantTable();
   }
 }
 
-function renderApprovalTable(data) {
-  const tbody = document.getElementById('approvalTableBody');
+function renderConsultantTable() {
+  const tbody = document.getElementById('consultantTableBody');
+  const prjFilter = document.getElementById('consultantProjectFilter').value;
 
-  if (!data || data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--muted);">No pending progress reports requiring approval.</td></tr>';
+  let filtered = pendingVerificationsList;
+  if (prjFilter !== 'ALL') {
+    filtered = filtered.filter(h => h.sheetName === prjFilter);
+  }
+
+  if (!filtered || filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--muted);">No pending progress reports requiring verification.</td></tr>';
     return;
   }
 
-  tbody.innerHTML = data.map((h, idx) => {
+  tbody.innerHTML = filtered.map(h => {
     var planNum = parsePercentageVal(h['Planned']);
     var actNum = parsePercentageVal(h['Actual']);
     var varNum = (actNum - planNum).toFixed(2);
     var varStr = (varNum >= 0 ? '+' : '') + varNum + '%';
-
-    var formattedMonth = formatMonthText(h['Reporting Month']);
-    var formattedDate = formatDateShort(h['Exact Date'] || h['Reporting Segment Period']);
 
     return `
       <tr>
         <td style="font-weight: 600;">${h['Project Name']}</td>
         <td>${h['Scope Category'] || ''}<br><small style="color: var(--muted);">${h['Trade'] || ''}</small></td>
         <td>${h['Reporting Cadence'] || h['Reporting Period'] || 'Biweekly'}</td>
-        <td>${formattedMonth}</td>
-        <td>${formattedDate}</td>
+        <td>${formatMonthText(h['Reporting Month'])}</td>
+        <td>${formatDateShort(h['Exact Date'] || h['Reporting Segment Period'])}</td>
+        <td>${planNum.toFixed(2)}%</td>
+        <td><strong>${actNum.toFixed(2)}%</strong></td>
+        <td style="color: ${varNum >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${varStr}</td>
+        <td style="max-width: 220px;">${h['Remarks'] || '-'}</td>
+        <td><button class="btn-action btn-verify" onclick="verifyRecord('${h.sheetName}', ${h.rowNumber})">Verify</button></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function verifyRecord(sheetName, rowNumber) {
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action: "verifyProgress", sheetName: sheetName, rowNumber: rowNumber })
+    }).then(() => {
+      alert('Report verified! Sent to PDD Authority for final approval.');
+      loadConsultantPageData();
+    });
+  } else {
+    alert('Report verified locally.');
+  }
+}
+
+// PDD AUTHORITY APPROVAL PAGE LOGIC
+function loadAuthorityPageData() {
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL + "?action=getPendingApprovals")
+      .then(res => res.json())
+      .then(res => {
+        if (res.status === 'success') renderAuthorityTable(res.data);
+      });
+  } else {
+    renderAuthorityTable([]);
+  }
+}
+
+function renderAuthorityTable(data) {
+  const tbody = document.getElementById('authorityTableBody');
+
+  if (!data || data.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align: center; color: var(--muted);">No verified progress reports awaiting PDD Authority approval.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = data.map(h => {
+    var planNum = parsePercentageVal(h['Planned']);
+    var actNum = parsePercentageVal(h['Actual']);
+    var varNum = (actNum - planNum).toFixed(2);
+    var varStr = (varNum >= 0 ? '+' : '') + varNum + '%';
+
+    return `
+      <tr>
+        <td style="font-weight: 600;">${h['Project Name']}</td>
+        <td>${h['Scope Category'] || ''}<br><small style="color: var(--muted);">${h['Trade'] || ''}</small></td>
+        <td>${h['Reporting Cadence'] || h['Reporting Period'] || 'Biweekly'}</td>
+        <td>${formatMonthText(h['Reporting Month'])}</td>
+        <td>${formatDateShort(h['Exact Date'] || h['Reporting Segment Period'])}</td>
         <td>${planNum.toFixed(2)}%</td>
         <td><strong>${actNum.toFixed(2)}%</strong></td>
         <td style="color: ${varNum >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${varStr}</td>
@@ -1056,8 +1180,8 @@ function approveRecord(sheetName, rowNumber) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: "approveProgress", sheetName: sheetName, rowNumber: rowNumber })
     }).then(() => {
-      alert('Submission approved! Approval column updated to YES.');
-      loadPage3Data();
+      alert('Submission approved by PDD Authority!');
+      loadAuthorityPageData();
     });
   } else {
     alert('Record approved locally.');
@@ -1075,6 +1199,7 @@ function toggleEntryMode() {
   }
 }
 
+// BIWEEKLY CADENCE UPDATED (WEEKS 2 & 4 ONLY)
 function handleCadenceChangeProgress() {
   const cadence = document.getElementById('pCadence').value;
   const container = document.getElementById('segmentContainer');
@@ -1088,10 +1213,8 @@ function handleCadenceChangeProgress() {
     container.innerHTML = `
       <label for="pSegment">Segment Period</label>
       <select id="pSegment" required>
-        <option value="Week 1 (1st - 7th)">Week 1 (1st - 7th)</option>
-        <option value="Week 2 (8th - 14th)" selected>Week 2 (8th - 14th)</option>
-        <option value="Week 3 (15th - 21st)">Week 3 (15th - 21st)</option>
-        <option value="Week 4 (22nd - End)">Week 4 (22nd - End)</option>
+        <option value="Week 2 (1st - 14th)" selected>Week 2 (1st - 14th)</option>
+        <option value="Week 4 (15th - End)">Week 4 (15th - End)</option>
       </select>
     `;
   } else {
@@ -1106,7 +1229,6 @@ function fetchProjectMetadataAndHistory() {
   const prjId = document.getElementById('pPrj').value;
 
   if (GOOGLE_SCRIPT_URL) {
-    // 1. Fetch Metadata live
     fetch(GOOGLE_SCRIPT_URL + "?action=getMetadata&projectId=" + prjId)
       .then(res => res.json())
       .then(res => {
@@ -1123,7 +1245,6 @@ function fetchProjectMetadataAndHistory() {
         renderMetadataTable([]);
       });
 
-    // 2. Fetch History live
     fetch(GOOGLE_SCRIPT_URL + "?action=getProjectHistory&projectId=" + prjId)
       .then(res => res.json())
       .then(res => {
@@ -1214,7 +1335,7 @@ function renderHistoryTable(data) {
   const tbody = document.getElementById('historyTableBody');
 
   if (!data || data.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="12" style="text-align: center; color: var(--muted);">No history records found for selected project and trade.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="13" style="text-align: center; color: var(--muted);">No history records found for selected project and trade.</td></tr>';
     return;
   }
 
@@ -1224,8 +1345,8 @@ function renderHistoryTable(data) {
     var varNum = (actNum - planNum).toFixed(2);
     var varStr = (varNum >= 0 ? '+' : '') + varNum + '%';
 
-    var formattedMonth = formatMonthText(h['Reporting Month']);
-    var formattedDate = formatDateShort(h['Exact Date'] || h['Reporting Segment Period']);
+    var verVal = h['Verification'] || h['Verification Status'] || 'NO';
+    var appVal = h['Approval'] || 'NO';
 
     return `
       <tr>
@@ -1234,13 +1355,14 @@ function renderHistoryTable(data) {
         <td>${h['Scope Code']}<br><small style="color: var(--muted);">${h['Scope Category']}</small></td>
         <td>${h['Trade']}</td>
         <td>${h['Reporting Cadence'] || h['Reporting Period'] || 'Biweekly'}</td>
-        <td>${formattedMonth}</td>
-        <td>${formattedDate}</td>
+        <td>${formatMonthText(h['Reporting Month'])}</td>
+        <td>${formatDateShort(h['Exact Date'] || h['Reporting Segment Period'])}</td>
         <td>${planNum.toFixed(2)}%</td>
         <td><strong>${actNum.toFixed(2)}%</strong></td>
         <td style="color: ${varNum >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${varStr}</td>
-        <td style="max-width: 200px;">${h['Remarks'] || '-'}</td>
-        <td><span class="badge ${h['Approval'] === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${h['Approval']}</span></td>
+        <td style="max-width: 180px;">${h['Remarks'] || '-'}</td>
+        <td><span class="badge ${verVal === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${verVal}</span></td>
+        <td><span class="badge ${appVal === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${appVal}</span></td>
       </tr>
     `;
   }).join('');
@@ -1278,7 +1400,7 @@ function handleProgressSubmit(e) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     }).then(() => {
-      alert('Progress update submitted successfully! Default Approval set to NO.');
+      alert('Progress report submitted! Pending Consultant Verification (Verification = NO, Approval = NO).');
       document.getElementById('formProgressUpdate').reset();
       fetchProjectMetadataAndHistory();
     });
