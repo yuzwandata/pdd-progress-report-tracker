@@ -121,7 +121,7 @@ button, input, select, textarea { font: inherit; }
 }
 .btn-login-role:hover { opacity: 0.9; }
 
-/* Page 2 Headline Cards */
+/* Summary Headline Cards */
 .hero-side {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -455,7 +455,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
         </select>
       </div>
 
-      <!-- SIMPLIFIED RED INSTRUCTION BOX -->
+      <!-- RED INSTRUCTION BOX -->
       <div class="red-instruction-box">
         <strong>Important Instructions:</strong> Project Name, Scope Code, Scope Category, and Trade are pre-loaded from existing records. To add new items, use <em>Project Details and Schedule Setup</em> mode.<br>
         Check history before entering metrics. Planned progress must increase over time, and actual progress must be equal to or higher than the previous record (<strong>CUMULATIVE progress</strong>).
@@ -610,7 +610,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
       </form>
     </section>
 
-    <!-- NEW SECTION: SCHEDULE SETUP METADATA REFERENCE TABLE -->
+    <!-- METADATA SCHEDULE SETUP REFERENCE TABLE -->
     <div class="eyebrow" style="margin-top: 24px;">SCHEDULE SETUP METADATA REFERENCE</div>
     <div class="table-wrap" style="margin-bottom: 32px;">
       <table>
@@ -626,9 +626,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
             <th>Finish Date</th>
           </tr>
         </thead>
-        <tbody id="metadataTableBody">
-          <!-- Metadata Entries Populated Here -->
-        </tbody>
+        <tbody id="metadataTableBody"></tbody>
       </table>
     </div>
 
@@ -661,7 +659,7 @@ td { font-size: 11px; padding: 12px 14px; border-bottom: 1px solid #eef0f4; colo
 
 <script>
 // Paste Google Apps Script Web App URL below:
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxSDtDaVr_0RgYJW8YHdxMfJGTzN2YusXuf7hMwOD430UHJuUrFlu7hXalfxL3yp9ntbA/exec";
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwdonBq2BzGxBsi9RNtC7alUOvREXDdtP4EBwJ6psqoWxVYgZ-XuKBjTOUIVIJbiAZyfA/exec";
 
 // Exact Financial Baseline from Project Details Overall Sheet
 let baselineOverallData = [
@@ -826,13 +824,70 @@ const fullMonthlyTrackingMap = {
 let currentMetadataList = [];
 let currentHistoryList = [];
 
-// Formatting helper: clean percentage string parser
+/**
+ * Robust Percentage Parser
+ * Fixes raw decimals (0.85 -> 85.00%) vs strings ("85.00%")
+ */
 function parsePercentageVal(val) {
   if (val === null || val === undefined || val === '') return 0.0;
+  
+  if (typeof val === 'number') {
+    // If entered as a decimal (e.g. 0.85 or 0.75), convert to percentage number (85 or 75)
+    if (val <= 1.0 && val > 0) return val * 100.0;
+    return val;
+  }
+  
   var str = String(val).replace('%', '').trim();
   var num = parseFloat(str);
   if (isNaN(num)) return 0.0;
+  
+  if (num <= 1.0 && num > 0 && String(val).indexOf('%') === -1) {
+    return num * 100.0;
+  }
   return num;
+}
+
+/**
+ * Robust Month Formatter
+ * Converts ISO date "2026-09-30T16:00:00.000Z" or "2026-10" to "October 2026"
+ */
+function formatMonthText(val) {
+  if (!val || val === '-') return '-';
+  var str = String(val).trim();
+
+  // If already formatted like "October 2026"
+  if (/^[A-Za-z]+\s+\d{4}$/.test(str)) return str;
+
+  // Check if string contains ISO date or YYYY-MM
+  var d = new Date(str);
+  if (!isNaN(d.getTime())) {
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return months[d.getUTCMonth()] + " " + d.getUTCFullYear();
+  }
+
+  return str;
+}
+
+/**
+ * Robust Calendar Date Formatter
+ * Converts ISO timestamps "2025-09-16T16:00:00.000Z" to "10/9/2026"
+ */
+function formatDateShort(val) {
+  if (!val || val === '-') return '-';
+  var str = String(val).trim();
+
+  // If it's a cadence label like "Week 2 (8th - 14th)" or "By Month", keep as is
+  if (str.indexOf('Week') !== -1 || str.indexOf('By Month') !== -1) {
+    return str;
+  }
+
+  var d = new Date(str);
+  if (!isNaN(d.getTime())) {
+    // Return D/M/YYYY
+    return d.getUTCDate() + "/" + (d.getUTCMonth() + 1) + "/" + d.getUTCFullYear();
+  }
+
+  return str;
 }
 
 function formatExactRM(val) {
@@ -973,17 +1028,20 @@ function renderApprovalTable(data) {
     var varNum = (actNum - planNum).toFixed(2);
     var varStr = (varNum >= 0 ? '+' : '') + varNum + '%';
 
+    var formattedMonth = formatMonthText(h['Reporting Month']);
+    var formattedDate = formatDateShort(h['Exact Date'] || h['Reporting Segment Period']);
+
     return `
       <tr>
         <td style="font-weight: 600;">${h['Project Name']}</td>
-        <td>${h['Scope Category']}<br><small style="color: var(--muted);">${h['Trade']}</small></td>
-        <td>${h['Reporting Period'] || h['Reporting Cadence'] || 'Biweekly'}</td>
-        <td>${h['Reporting Month'] || '-'}</td>
-        <td>${h['Reporting Segment Period'] || '-'}</td>
+        <td>${h['Scope Category'] || ''}<br><small style="color: var(--muted);">${h['Trade'] || ''}</small></td>
+        <td>${h['Reporting Cadence'] || h['Reporting Period'] || 'Biweekly'}</td>
+        <td>${formattedMonth}</td>
+        <td>${formattedDate}</td>
         <td>${planNum.toFixed(2)}%</td>
         <td><strong>${actNum.toFixed(2)}%</strong></td>
         <td style="color: ${varNum >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${varStr}</td>
-        <td style="max-width: 220px;">${h['Remarks']}</td>
+        <td style="max-width: 220px;">${h['Remarks'] || '-'}</td>
         <td><button class="btn-action btn-approve" onclick="approveRecord('${h.sheetName}', ${h.rowNumber})">Approve</button></td>
       </tr>
     `;
@@ -1146,8 +1204,8 @@ function renderMetadataTable(data) {
       <td>${m['Scope Category']}</td>
       <td>${m['Trade']}</td>
       <td>${m['Duration']}</td>
-      <td>${m['Start Date']}</td>
-      <td>${m['Finish Date']}</td>
+      <td>${formatDateShort(m['Start Date'])}</td>
+      <td>${formatDateShort(m['Finish Date'])}</td>
     </tr>
   `).join('');
 }
@@ -1166,19 +1224,22 @@ function renderHistoryTable(data) {
     var varNum = (actNum - planNum).toFixed(2);
     var varStr = (varNum >= 0 ? '+' : '') + varNum + '%';
 
+    var formattedMonth = formatMonthText(h['Reporting Month']);
+    var formattedDate = formatDateShort(h['Exact Date'] || h['Reporting Segment Period']);
+
     return `
       <tr>
         <td style="font-weight: 600; color: var(--blue);">${h['Entry ID']}</td>
         <td style="font-weight: 600;">${h['Project Name']}</td>
         <td>${h['Scope Code']}<br><small style="color: var(--muted);">${h['Scope Category']}</small></td>
         <td>${h['Trade']}</td>
-        <td>${h['Reporting Period'] || h['Reporting Cadence'] || 'Biweekly'}</td>
-        <td>${h['Reporting Month'] || '-'}</td>
-        <td>${h['Reporting Segment Period'] || '-'}</td>
+        <td>${h['Reporting Cadence'] || h['Reporting Period'] || 'Biweekly'}</td>
+        <td>${formattedMonth}</td>
+        <td>${formattedDate}</td>
         <td>${planNum.toFixed(2)}%</td>
         <td><strong>${actNum.toFixed(2)}%</strong></td>
         <td style="color: ${varNum >= 0 ? 'var(--green)' : 'var(--red)'}; font-weight: 600;">${varStr}</td>
-        <td style="max-width: 200px;">${h['Remarks']}</td>
+        <td style="max-width: 200px;">${h['Remarks'] || '-'}</td>
         <td><span class="badge ${h['Approval'] === 'YES' ? 'badge-ahead' : 'badge-delayed'}">${h['Approval']}</span></td>
       </tr>
     `;
@@ -1243,8 +1304,8 @@ function handleMetadataSubmit(e) {
     finishDate: document.getElementById('sFinishDate').value
   };
 
-  if (_SCRIPT_URL) {
-    fetch(_SCRIPT_URL, {
+  if (GOOGLE_SCRIPT_URL) {
+    fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
